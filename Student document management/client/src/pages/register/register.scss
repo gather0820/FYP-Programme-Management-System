@@ -1,0 +1,50 @@
+@import './../../styles/theme.scss';
+
+.box {
+  margin: 200px auto;
+  width: 400px;
+  padding: 20px 50px;
+  background: $def_hover;
+  opacity: 0.8;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 0 50px;
+  button {
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
+.title {
+  margin: 20px auto 30px;
+  text-align: center;
+}
+
+.agreement {
+  height: 400px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
+.code {
+  span[class='ant-input-affix-wrapper'] {
+    width: 60%;
+    vertical-align: middle;
+  }
+  input {
+    height: 32px;
+  }
+  img {
+    cursor: pointer;
+    float: right;
+  }
+  .code_svg {
+    cursor: pointer;
+    display: inline-block;
+    height: 32px;
+    float: right;
+    width: 40%;
+    border: 1px solid #d9d9d9;
+    margin-top: 5px;
+  }
+}

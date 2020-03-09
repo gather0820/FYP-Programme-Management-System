@@ -2,7 +2,7 @@
 const env = {
     database: 'cloud_drive',
     username: 'root',
-    password: '19980820John',
+    password: '123456',
     host: 'localhost',
     dialect: 'mysql',
     pool: {
