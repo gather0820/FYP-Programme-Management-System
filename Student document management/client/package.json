@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "antd": "^3.4.5",
-    "axios": "^0.16.2",
+    "axios": "^0.18.1",
     "bluebird": "^3.5.1",
     "nprogress": "^0.2.0",
     "qs": "^6.5.2",
