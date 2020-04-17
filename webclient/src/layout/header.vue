@@ -2,7 +2,7 @@
   <div class="header">
     <div class="title">
       SDMS
-      <span class="label">version.1</span>
+      <span class="label">version.2</span>
     </div>
     <div class="user">
       User: {{username}}&nbsp;&nbsp;
