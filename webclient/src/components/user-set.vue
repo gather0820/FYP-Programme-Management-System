@@ -91,13 +91,18 @@ export default {
                     this.$http
                         .put(`/user/update/${sessionStorage.uid}`, params)
                         .then(res => {
-                            this.$message.success('修改密码成功!请重新登录')
+                            if(res.data.flag == 1){
+                                this.$message.success('修改密码成功!请重新登录')
                             sessionStorage.clear()
                             setTimeout(() => {
                                 this.$router.push({
                                     path: '/'
                                 })
-                            }, 1000)
+                            }, 1500)
+                            }else{
+                                this.$message.error('修改失败,原密码错误！')
+                            }
+                            
                         })
                         .catch(err => {
                             console.log('Error=>', err)
