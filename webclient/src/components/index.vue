@@ -9,7 +9,7 @@
     <div class="btn">
         <el-button type="danger" @click="dialogFormVisible = true">Log in / Register</el-button>
     </div>
-    <el-dialog title="Log in / Register" :visible.sync="dialogFormVisible" width="400px">
+    <el-dialog title="Log in / Register" :visible.sync="dialogFormVisible" width="400px" :close-on-click-modal="false">
         <el-form :model="form">
             <el-form-item label="User" :label-width="formLabelWidth">
                 <el-input v-model="form.username" autocomplete="off"></el-input>
@@ -44,15 +44,15 @@ export default {
         signIn() {
             this.dialogFormVisible = false
             this.$http
-                .post('http://localhost:8081/user/validate', this.form)
+                .post('/user/validate', this.form)
                 .then(res => {
                     if (res.data.flag === 0) {
                         this.$message.error(res.data.msg + '!!')
                     } else {
-                        this.$message.success(res.data.msg)
-                        sessionStorage.setItem('uid', res.data.uid)
-                        sessionStorage.setItem('username', res.data.username)
-
+                        this.$message.success(res.data.msg);
+                        sessionStorage.setItem('uid', res.data.uid);
+                        sessionStorage.setItem('username', res.data.username);
+                        this.hasNew();
                         //  跳转到其他页面
                         this.$router.push('tab-list')
                     }
@@ -61,25 +61,39 @@ export default {
                     console.log(err)
                 })
         },
-        //  注册
-        signUp() {
-            this.dialogFormVisible = false
-            this.$http
-                .post('http://localhost:8081/user/add', this.form)
-                .then(res => {
-                    if (res.data.flag === 0) {
-                        this.$message.error(res.data.msg)
-                    } else {
-                        this.$message.success(res.data.msg)
-                        this.$router.push('tab-list')
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+
+        async hasNew() {
+            let res = await this.$http.get(`/share/new/${sessionStorage.uid}`);
+            if (res.data.flag == 1) {
+                sessionStorage.setItem('showBadge', 1);
+            }
         }
+
+        //this.$forceUpdate();
+    ,
+    //  注册
+    signUp() {
+        this.dialogFormVisible = false
+        this.$http
+            .post('/user/add', this.form)
+            .then(res => {
+                if (res.data.flag === 0) {
+                    this.$message.error(res.data.msg)
+                } else {
+                    this.$message.success(res.data.msg)
+                    //this.$router.push('tab-list')
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    },
+    mounted(){
+        this.hasNew();
     }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
