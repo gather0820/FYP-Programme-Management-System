@@ -1,10 +1,10 @@
 const env = require('./env.js');
-
 const Sequelize = require('sequelize');
+
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
   dialect: env.dialect,
-  operatorsAliases: false,
+  //operatorsAliases: false,
   define:{
     timestamps: false
   },
@@ -25,5 +25,7 @@ db.sequelize = sequelize;
 // 引入表模型,数据库表将根据表模型生成
 db.user = require('../model/user.model')(sequelize, Sequelize);
 db.file = require('../model/file.model')(sequelize, Sequelize);
+db.share = require('../model/share.model')(sequelize, Sequelize);
+db.verification = require('../model/verification.model')(sequelize, Sequelize);
 
 module.exports = db;
