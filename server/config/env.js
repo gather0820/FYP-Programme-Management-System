@@ -1,10 +1,10 @@
 //  数据库连接参数
 const env = {
-  database: 'cloud_drive',
+  database: 'SDMS',
   username: 'root',
   //password: '123456',
   //host: '192.168.31.236',
-  password: '19980820.John.',
+  password: '19980820.John',
   host: 'localhost',
   dialect: 'mysql',
   pool: {
