@@ -79,7 +79,6 @@ exports.getReceiveData = async (req, res) => {
         }
         res.status(200).json(msg)
     }, 300)
-    // res.send(ss)
 }
 /**
  * 在share表中改变记录的status
@@ -95,16 +94,16 @@ exports.handle = (req, res) => {
         }
     ).then(() => {
         let msg = {
-            flag:1,
-            msg:"updated"
+            flag: 1,
+            msg: "updated"
         };
         res.status(200).json(msg);
     }).catch(err => {
         let msg = {
-            flag:1,
-            msg:err
+            flag: 1,
+            msg: err
         };
-        res.status(500),json(msg)
+        res.status(500), json(msg)
     })
 }
 
