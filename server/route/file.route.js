@@ -9,11 +9,16 @@ module.exports = function(app) {
   app.delete('/file/delete/:fileName/:fileId', file.delete);
 
   // 下载文件
-  app.get('/file/download/:fileName/:fileId', file.download);
+  app.get('/file/download/:hashName/:fileName/:fileId', file.download);
 
   // 获取文件信息列表
   app.post('/file/list', file.findAll);
 
-  //todo:文件预览
-  //app.get('file/preview/:fileName/:fileId',file.preview);
+  app.post('/file/share/save/:uid',file.save);
+
+  //文件预览
+  app.get('/file/preview/:hashName/:fileName',file.preview);
+
+  //转码
+  app.post('/file/transcode', file.transcode)
 };
