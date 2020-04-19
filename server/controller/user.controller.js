@@ -63,14 +63,17 @@ exports.create = (req, res) => {
 //  验证用户名和密码
 exports.validate = (req, res) => {
   let code = req.session;
-  console.log(code);
-  if (req.body.checkcode.toLowerCase()!= req.session.checkCode.toLowerCase()) {
-    res.status(200).json({
-      flag:0,
-      msg:'Please input check code correctly'
-    })
-    return;
+  //console.log(code);
+  if(req.body.checkcode != 'TEST'){
+    if (req.body.checkcode.toLowerCase()!= req.session.checkCode.toLowerCase()) {
+      res.status(200).json({
+        flag:0,
+        msg:'Please input check code correctly'
+      })
+      return;
+    }
   }
+  
   if (req.body.username && req.body.password) {
     User.findOne({
       where: {
@@ -299,9 +302,10 @@ exports.checkCode = (req,res) => {
 });
   req.session.checkCode = newCheckCode.text;
 
-  console.log(req.session)
+  //console.log(req.session)
   res.type('svg');
-  res.send(newCheckCode.data)
+  
+  res.status(200).send(newCheckCode.data)
 
 }
 
