@@ -1,8 +1,8 @@
 <template>
-<div>
-    <pdf ref="pdf" :src="url" :page="currentPage" @num-pages="pageCount = $event" @page-loaded="currentPage = $event">
-
-    </pdf>
+<div class="pdf">
+    
+        <pdf ref="pdf" :src="url" :page="currentPage" @num-pages="pageCount = $event" @page-loaded="currentPage = $event" />
+    
     <div style="text-align:center;margin-bottom:20px;margin-top:20px;font-size:18px;height:30px;">
         <i class="el-icon-d-arrow-left" @click="prePage" />
         <span>{{currentPage}} / {{pageCount}}</span>
