@@ -18,6 +18,7 @@ const libre = require('libreoffice-convert');
  */
 exports.transcode = (req, res) => {
   const sourceFileName = req.body.hash_name;
+  const fileName = req.body.file_name;
   const arr = sourceFileName.split('.');
   const sourceFileExt = '.'+arr[arr.length-1]
   const outputExtend = '.pdf'
@@ -39,7 +40,7 @@ exports.transcode = (req, res) => {
       let msg = {
         flag:1,
         msg:'converted!',
-        url:`http://localhost:8081/file/preview/${sourceFileName}`
+        url:`http://localhost:8081/file/preview/${sourceFileName}/${fileName}`
       }
       res.status(200).json(msg)
     }
@@ -50,10 +51,11 @@ exports.transcode = (req, res) => {
  * preview,获得文件地址
  */
 exports.preview = (req,res) => {
+  let hashName = req.params.hashName;
   let fileName = req.params.fileName;
-  let arr  = fileName.split('.');
+  let arr  = hashName.split('.');
   let ext = arr[arr.length-1];
-  let path = `${__dirname}/../convertPDF/${fileName.replace(ext,'pdf')}`;
+  let path = `${__dirname}/../convertPDF/${hashName.replace(ext,'pdf')}`;
   res.download(path,fileName.replace(ext,'.pdf'))
 }
   //return await convertPromise();
@@ -194,8 +196,8 @@ exports.download = (req, res) => {
       //   .then(() => {
       file.increment('download').then(() => {
         let fileName = req.params.fileName;
-        let path = `${__dirname}/../resource/${fileName}`;
-        console.log(path);
+        let path = `${__dirname}/../resource/${req.params.hashName}`;
+        //console.log(path);
         //   res.set({
         //     "Content-type":"application/octet-stream",
         //     "Content-Disposition":"attachment;filename="+file.file_name
@@ -228,4 +230,4 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).json('Error=>', err);
     });
-};
+}
