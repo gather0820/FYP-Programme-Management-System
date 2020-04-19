@@ -20,7 +20,7 @@
                 <el-table-column prop="type" label="Type" width="100px"></el-table-column>
                 <el-table-column>
                     <template slot="header">
-                        <el-input v-model="search" placeholder="Search via file name..." style="width:80%">
+                        <el-input v-model="search" placeholder="Search file" style="width:80%">
                             <i slot="prefix" style="margin-left:10px;" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </template>
