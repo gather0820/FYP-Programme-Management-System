@@ -12,8 +12,8 @@
                 <el-input type="password" v-model="ruleForm.checkNewPass" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')">submit</el-button>
-                <el-button @click="resetForm('ruleForm')">reset</el-button>
+                <el-button type="primary" @click="submitForm('ruleForm')">Submit</el-button>
+                <el-button @click="resetForm('ruleForm')">Reset</el-button>
             </el-form-item>
         </el-form>
 
@@ -92,7 +92,7 @@ export default {
                         .put(`/user/update/${sessionStorage.uid}`, params)
                         .then(res => {
                             if(res.data.flag == 1){
-                                this.$message.success('修改密码成功!请重新登录')
+                                this.$message.success('Password changed successfully! Please log in again')
                             sessionStorage.clear()
                             setTimeout(() => {
                                 this.$router.push({
@@ -100,7 +100,7 @@ export default {
                                 })
                             }, 1500)
                             }else{
-                                this.$message.error('修改失败,原密码错误！')
+                                this.$message.error('Failed to modify, the original password is wrong!')
                             }
                             
                         })
