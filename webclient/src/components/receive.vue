@@ -1,4 +1,5 @@
 <template>
+<div>
 <el-tabs v-model="tabActivedName" style="margin-left:30px;" closable @tab-remove="removeTab">
 
     <el-tab-pane v-for="(item) in receiveTabs" :key="item.name" :label="item.sender" :name="item.name" type="card">
@@ -19,10 +20,10 @@
                     <el-table-column prop="size" label="Size" width="150px" :formatter="dealSize"></el-table-column>
                     <el-table-column prop="type" label="Type" width="150px"></el-table-column>
                     <el-table-column width="180px" align="center">
-                        <template slot-scope="">
+                        <template slot-scope="scope">
 
                             <a href="#">
-                                <el-button size="small" type="warning">&nbsp;Preview&nbsp;&nbsp;</el-button>
+                                <el-button size="small" type="warning" @click="preview(scope.row)">&nbsp;Preview&nbsp;&nbsp;</el-button>
                             </a>
                         </template>
                     </el-table-column>
@@ -40,17 +41,36 @@
         <span>Nothing to do</span>
     </el-row>
 </el-tabs>
+
+<el-dialog :title="previewItem" :visible.sync="centerDialogVisible" width="45%" center top="1%" :close-on-click-modal="false">
+        <div style="height:auto" v-loading="pdfURL == ''" element-loading-text="transcoding..." element-loading-spinner="el-icon-loading">
+            <preview :url="pdfURL" v-if="centerDialogVisible" />
+
+            <el-row slot="footer" class="dialog-footer" style="text-align:center">
+                <!-- <el-button @click="centerDialogVisible = false"></el-button> -->
+                <el-button type="primary" @click="centerDialogVisible = false">OK</el-button>
+            </el-row>
+        </div>
+    </el-dialog>
+    </div>
 </template>
 
 <script>
+import Preview from './preview';
 export default {
+    components: {
+        Preview
+    },
     data() {
         return {
             tabActivedName: 0,
             receiveTabs: [],
             tableData: [],
             tabIndex: 1,
-            multipleSelection: []
+            multipleSelection: [],
+            previewItem: '',
+            centerDialogVisible: false,
+            pdfURL: '',
         };
     },
     methods: {
@@ -67,6 +87,39 @@ export default {
                 }
 
             });
+        },
+        preview(row) {
+            this.pdfURL = '';
+            this.previewItem = row.fileName;
+            this.centerDialogVisible = true;
+            if (row.type == '.pdf') {
+                this.pdfURL = `http://localhost:8081/file/download/${row.hash_name}/${row.id}`;
+                //this.previewItem = row.fileName;
+            } else {
+                this.transcode(row.hash_name, row.type);
+            }
+
+        },
+        transcode(hash_name, type) {
+            let params = {
+                hash_name,
+                type
+            }
+            this.$http.post(`/file/transcode`, params).then(res => {
+                    if (res.data.flag === 1) {
+                        //this.pdfURL = res.data.url
+                        //this.centerDialogVisible = true;
+                        //setTimeout(()=>{
+                        this.pdfURL = res.data.url
+                        // },1)
+                    }
+                })
+
+                //this.pdfURL = res.data.url
+
+                .catch(err => {
+                    console.log("Error=>", err);
+                })
         },
         removeTab(targetName) {
             let tabs = this.receiveTabs;
@@ -95,7 +148,11 @@ export default {
         },
         dealSize(row, column) {
             let fileSize = (row.size / 1024).toFixed(2);
-            return `${fileSize}kb`;
+            if (fileSize >= 1024) {
+                fileSize = (fileSize / 1024).toFixed(2)
+                return `${fileSize}MB`;
+            }
+            return `${fileSize}KB`;
         },
         /**
          * 格式化时间
