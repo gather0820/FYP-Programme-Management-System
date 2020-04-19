@@ -74,9 +74,10 @@ require('./route/file.route')(app);
 require('./route/share.route')(app);
 
 //  创建服务器
-let server = app.listen(process.env.PORT || 8081, () => {
-  //let host = server.address().address;
-  let host = '127.0.0.1';
-  let port = server.address().port;
-  console.log('started at: http://%s:%s', host, port);
-});
+// let server = app.listen(process.env.PORT || 8081, () => {
+//   //let host = server.address().address;
+//   let host = '127.0.0.1';
+//   let port = server.address().port;
+//   console.log('started at: http://%s:%s', host, port);
+// });
+module.exports = app.listen(8081);
