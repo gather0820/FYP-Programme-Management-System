@@ -58,25 +58,6 @@ exports.preview = (req,res) => {
   let path = `${__dirname}/../convertPDF/${hashName.replace(ext,'pdf')}`;
   res.download(path,fileName.replace(ext,'.pdf'))
 }
-  //return await convertPromise();
-  //let hash_name = req.body.hash_name;
-
-  //convertPath = `${__dirname}/../convertPDF/${hash_name}`;
-  //child_process.execFile('soffice',['--convert-to','pdf','note.txt'],(error, stdout, stderr) => {
-  // if(error){
-  //     throw error;
-  // }
-  // if(stdout&&!stderr){
-  //     let msg = {
-  //       flag:1
-  //     }
-  //     res.status(200).json(msg)
-  //     console.log("converted!!!")
-  // }
-  //console.log(`stdout: ${stdout}`);
-  //console.log(`stderr: ${stderr}`);
-  //})
-  //console.log("converted!!!")
 
 //  添加文件
 exports.create = (req, res) => {
