@@ -189,7 +189,8 @@ export default {
 
 <style scoped>
 .index {
-    margin-top: 140px;
+    
+    /** margin-top: 140px;*/
 
     height: 700px;
     text-align: center;
@@ -197,15 +198,15 @@ export default {
 }
 
 .title {
-    padding-top: 20px;
+    padding-top: 100px;
     font-size: 80px;
     font-weight: bolder;
 }
 
 .label {
     font-size: 40px;
-    margin-top: 30px;
-    margin-bottom: 20px;
+    margin-top: 60px;
+    margin-bottom: 40px;
     font-weight: bold;
 }
 
