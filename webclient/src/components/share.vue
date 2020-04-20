@@ -12,7 +12,7 @@
             </el-row>
         </el-aside>
         <el-main class="share-main">
-            <el-table ref="multipleTable" @selection-change="handleSelectionChange" class="list" stripe height="500" :data="tableData.filter(data =>  !search || data.file_name.toLowerCase().includes(search.toLowerCase()))" :header-cell-style="{background:'#d0f1f6',color:'#606276','text-align':'center'}" :cell-style="{'text-align':'center'}" :style="labelStyle">
+            <el-table ref="multipleTable" empty-text="No data" @selection-change="handleSelectionChange" class="list" stripe height="500" :data="tableData.filter(data =>  !search || data.file_name.toLowerCase().includes(search.toLowerCase()))" :header-cell-style="{background:'#d0f1f6',color:'#606276','text-align':'center'}" :cell-style="{'text-align':'center'}" :style="labelStyle">
                 <el-table-column type="selection"></el-table-column>
                 <el-table-column type="index" width="80px"></el-table-column>
                 <el-table-column prop="file_name" label="File Name" width="350px"></el-table-column>
@@ -20,7 +20,7 @@
                 <el-table-column prop="type" label="Type" width="100px"></el-table-column>
                 <el-table-column>
                     <template slot="header">
-                        <el-input v-model="search" placeholder="Search via file name..." style="width:80%">
+                        <el-input v-model="search" placeholder="Search file" style="width:100%">
                             <i slot="prefix" style="margin-left:10px;" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </template>
@@ -52,7 +52,11 @@ export default {
         },
         dealSize(row, column) {
             let fileSize = (row.size / 1024).toFixed(2);
-            return `${fileSize}kb`;
+            if (fileSize >= 1024) {
+                fileSize = (fileSize / 1024).toFixed(2)
+                return `${fileSize}MB`;
+            }
+            return `${fileSize}KB`;
         },
         getFileList() {
             let params = {
