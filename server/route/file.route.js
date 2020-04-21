@@ -1,4 +1,5 @@
-//  文件接口
+//  文件接口，接收前端请求
+//  url匹配上就会调用controller里的函数
 module.exports = function(app) {
   const file = require('../controller/file.controller');
 
