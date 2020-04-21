@@ -3,9 +3,9 @@ const User = db.user; //  引入表模型
 const Verification = db.verification;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const svgCaptcha = require('svg-captcha');
+const svgCaptcha = require('svg-captcha');//登录验证码
 const CryptoJS = require('crypto-js')
-const nodeOutlook = require('nodejs-nodemailer-outlook');
+const nodeOutlook = require('nodejs-nodemailer-outlook');//邮箱验证码
 
 const crypto = require('crypto');
 //  新增用户
@@ -287,13 +287,13 @@ exports.verifyEmail = async (req, res) => {
   // })
 }
 /**
- * 登录校验码2020-4-11
+ * 登录校验码2020-4-11,Node自带的模块
  */
 exports.checkCode = (req,res) => {
   let newCheckCode = svgCaptcha.create({
     size: 4,  //验证码长度
-    width: 100, //svg宽度
-    height: 50, //svg高度
+    width: 200, //svg宽度
+    height: 100, //svg高度
     // background: "#eee",//svg背景色
     noise: 3, //干扰线条数
     fontSize: 35, //字体大小
