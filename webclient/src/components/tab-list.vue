@@ -1,3 +1,4 @@
+<!-- 承载所有功能的父组件，其他都是子组件 .跳转到此页面，AJAX从后台请求各种数据，例如文件列表-->
 <template>
 <div class="show" ref="show">
     <base-header></base-header>
@@ -14,6 +15,7 @@
 </template>
 
 <script>
+//把其他组件import进tab-list这个页面
 import BaseHeader from '../layout/header';
 import BaseFooter from '../layout/footer';
 import UploadFile from './file-upload';
@@ -34,6 +36,8 @@ export default {
         Receive,
         Settings
     },
+
+
     data() {
         return {
             tabActivedName: 'second',
