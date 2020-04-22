@@ -7,15 +7,15 @@
     </div>
     <el-dialog title="Log in" :visible.sync="dialogFormVisible" width="400px" :close-on-click-modal="false">
         <el-form :model="form">
-            <el-form-item label="User" :label-width="formLabelWidth">
-                <el-input v-model="form.username" autocomplete="off"></el-input>
+            <el-form-item label="User" :label-width="formLabelWidth"  >
+                <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address"></el-input>
             </el-form-item>
             <el-form-item label="Password" :label-width="formLabelWidth">
                 <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
             </el-form-item>
-            <el-form-item label="Check Code" :label-width="formLabelWidth">
-                <el-input v-model="form.checkcode" autocomplete="off"></el-input>
-                <div v-html="svgData" @click="refreshCheckCode"></div>
+            <el-form-item label="Check Code" :label-width="formLabelWidth"  >
+                <el-input v-model="form.checkcode" autocomplete="off" placeholder="Click the CODE to refresh"></el-input>
+                <div v-html="svgData" @click="refreshCheckCode" style="padding-top: 20px;"></div>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -26,24 +26,19 @@
     <el-dialog title="Register" :visible.sync="dialog2FormVisible" width="500px" :close-on-click-modal="false">
         <el-form :model="form">
             <el-form-item label="User name" :label-width="formLabelWidth">
-                <el-input v-model="form.username" autocomplete="off" placeholder="Input an e-mail address" :disabled="emailDisabled">
-                    <el-button slot="append" type="success" @click="sendVerifyCode" :disabled="emailDisabled">verify</el-button>
+                <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address" :disabled="emailDisabled">
+                    <el-button slot="append" type="success" @click="sendVerifyCode" :disabled="emailDisabled">Verify</el-button>
                 </el-input>
             </el-form-item>
             <el-form-item label="Verification Code" :label-width="formLabelWidth">
-                <el-input v-model="form.vercode" autocomplete="off" placeholder="">
-                    <!-- <el-button slot="append" type="success"  @click="sendVerifyCode">verify</el-button> -->
+                <el-input v-model="form.vercode" autocomplete="off" placeholder="Click 'Verify' and check your E-mail">
                 </el-input>
             </el-form-item>
             <el-form-item label="Password" :label-width="formLabelWidth">
                 <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
             </el-form-item>
-            <!-- <el-form-item label="e-mail" :label-width="formLabelWidth">
-                <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
-        </el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <!-- <el-button type="primary" @click="signIn">Log in</el-button> -->
             <el-button @click="signUp">Register</el-button>
         </div>
     </el-dialog>
@@ -66,7 +61,7 @@ export default {
             },
             formLabelWidth: "120px",
             emailDisabled: false,
-            svgData: ''
+            svgData: 'width="200"'
         };
     },
     methods: {
@@ -146,13 +141,13 @@ export default {
                             this.dialogFormVisible = true;
                         }, 2000)
 
-                        //this.$router.push('tab-list')
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 });
         },
+        //通过AJAX请求验证码
         getCheckCode() {
             this.$http.get('/user/checkcode').then(res => {
                 this.svgData = res.data;
@@ -163,7 +158,7 @@ export default {
         },
 
         /**
-         * 加密
+         * 密码加密，防止抓包
          */
         encrypt(word, keyStr) {
             keyStr = keyStr ? keyStr : "sdms123456SDMS654321";
@@ -177,6 +172,7 @@ export default {
 
         },
     },
+    //在此生命周期函数里调用，页面装在完成会自动调用
         mounted() {
             this.hasNew();
             this.getCheckCode();
@@ -216,5 +212,6 @@ export default {
 
 .dialog-footer {
     text-align: center;
+    
 }
 </style>
