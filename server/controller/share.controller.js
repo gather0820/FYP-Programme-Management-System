@@ -18,13 +18,13 @@ exports.create = (req, res) => {
             if (share) {
                 let msg = {
                     flag: 1,
-                    msg: 'Share -- Done!'
+                    msg: 'Share -- Success!'
                 };
                 res.status(200).json(msg);
             } else {
                 let msg = {
                     flag: 0,
-                    msg: 'Share -- failed!'
+                    msg: 'Share -- Failed!'
                 };
                 res.status(500).json(msg);
             }
