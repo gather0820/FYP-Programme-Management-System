@@ -232,15 +232,7 @@ exports.verifyEmail = async (req, res) => {
   } catch (ex) {
     console.log(ex)
   }
-  // let verInfo = {
-  //   username:email,
-  //   code:token,
-  //   create_time:new Date()
-  // }
-  // let newVer = await Verification.create(verInfo);
-  // if (newVer) {
-  //   console.log(newVer)
-  // }
+  
 
   nodeOutlook.sendEmail({
     auth: {
@@ -281,10 +273,7 @@ exports.verifyEmail = async (req, res) => {
   if (newVer) {
     console.log(newVer)
   }
-  // res.send({
-  //   flag:1,
-  //   code: token
-  // })
+  
 }
 /**
  * 登录校验码2020-4-11,Node自带的模块
