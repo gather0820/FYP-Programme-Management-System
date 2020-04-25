@@ -2,12 +2,12 @@
 <div>
     <el-container>
         <el-aside class="share-aside" width="450px">
-            <span>To share files, input your friend' s username</span>
+            <span>Pleace input username to share files. </span>
             <el-row type="flex">
                 <el-col :span="16" justify="center">
-                    <el-input v-model="receiver"></el-input>
+                    <el-input v-model="receiver" placeholder="*This conduct is irreversible."></el-input>
                     <!-- <el-button type="primary" class="send" @click="handleCheck">Check</el-button> -->
-                    <el-button type="primary" class="send" @click="handleSend">Send</el-button>
+                    <el-button type="primary" class="send" @click="handleSend">Share</el-button>
                 </el-col>
             </el-row>
         </el-aside>
