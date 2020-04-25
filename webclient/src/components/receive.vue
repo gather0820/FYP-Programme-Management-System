@@ -4,7 +4,7 @@
 
     <el-tab-pane v-for="(item) in receiveTabs" :key="item.name" :label="item.sender" :name="item.name" type="card">
         <transition name="el-zoom-in-center">
-            <el-table height="450" :data="item.fileList" align="center" empty-text="No data" stripe @selection-change="handleSelectionChange" ref="multipleTable">
+            <el-table height="390" :data="item.fileList" align="center" empty-text="No data" stripe @selection-change="handleSelectionChange" ref="multipleTable">
                 <el-table-column>
                     <template slot="header">
                         <div style="display:flex;justify-content:space-around;">
@@ -32,7 +32,7 @@
             </el-table>
         </transition>
     </el-tab-pane>
-    <el-row v-if="receiveTabs.length > 0" style="margin-top:30px">
+    <el-row v-if="receiveTabs.length > 0" style="margin-top:10px">
         <el-button type="primary" @click="handleAcceptAll">Accept all</el-button>
         <el-button type="success" @click="handleAcceptSelected">Accept selected</el-button>
         <el-button type="danger" @click="handleRejectAll">Reject all</el-button>
