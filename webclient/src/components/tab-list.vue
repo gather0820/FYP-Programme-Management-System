@@ -2,11 +2,11 @@
 <template>
 <div class="show" ref="show">
     <base-header></base-header>
-    <el-tabs v-model="tabActivedName" tab-position="left" type="card" class="tab" @tab-click="cancelBadge">
+    <el-tabs v-model="tabActivedName" type="card" class="tab" @tab-click="cancelBadge">
         <el-tab-pane class="tab-panes" v-for="(item, index) in componentList" :key="index" :label="item.tabLabel" :name="item.tabName">
             <span ref="badge" slot="label" v-if="item.tabLabel=='Receive'&& showBadge">
 
-                <el-badge value="new">Receive</el-badge>
+                <el-badge >Receive</el-badge>
             </span>
             <component :is="item.compoName" v-if="tabActivedName===item.tabName"></component>
         </el-tab-pane>
