@@ -107,15 +107,9 @@ export default {
             }
             this.$http.post(`/file/transcode`, params).then(res => {
                     if (res.data.flag === 1) {
-                        //this.pdfURL = res.data.url
-                        //this.centerDialogVisible = true;
-                        //setTimeout(()=>{
                         this.pdfURL = res.data.url
-                        // },1)
                     }
                 })
-
-                //this.pdfURL = res.data.url
 
                 .catch(err => {
                     console.log("Error=>", err);
