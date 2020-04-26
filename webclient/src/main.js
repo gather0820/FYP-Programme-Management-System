@@ -15,6 +15,7 @@ Vue.config.productionTip = false;
 Vue.use(VCharts);
 Vue.use(ElementUI);
 
+//Verification of cancelled codes
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
