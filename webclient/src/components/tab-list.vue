@@ -1,4 +1,7 @@
-<!-- 承载所有功能的父组件，其他都是子组件 .跳转到此页面，AJAX从后台请求各种数据，例如文件列表-->
+<!-- 承载所有功能的父组件，其他都是子组件 .
+跳转到此页面，AJAX从后台请求各种数据，例如文件列表-->
+<!--The parent component that carries all the functionality, the others are children . 
+Jump to this page, AJAX requests various data from the background, such as file lists-->
 <template>
 <div class="show" ref="show">
     <base-header></base-header>
@@ -16,6 +19,7 @@
 
 <script>
 //把其他组件import进tab-list这个页面
+//Import other components into the tab-list page.
 import BaseHeader from '../layout/header';
 import BaseFooter from '../layout/footer';
 import UploadFile from './file-upload';
@@ -78,13 +82,17 @@ export default {
         },
 
         /**
-         * 进入页面时,向后台发起请求,查询是否有当前用户未处理的分享，如果有则改变showBadge的值
+         *  进入页面时,向后台发起请求.查询是否有当前用户未处理的分享，如果有则改变showBadge的值
+         *  When you enter the page, make a request to the background.
+         *  Query if there are any unprocessed shares by the current user, and if so, change the value of showBadge
          */
         hasNew() {
             this.$http.get(`/share/new/${sessionStorage.uid}`).then(res => {
                 if (res.data.flag == 1) {
                     this.showBadge = res.data.data.length;
-                    this.$children[1].$children[0].$forceUpdate()//手动更新视图，时Receive标签显示New
+                    //When the view is updated manually, the Receive tab shows the New
+                    //手动更新视图，时Receive标签显示New
+                    this.$children[1].$children[0].$forceUpdate()
                 }
             });
         }
