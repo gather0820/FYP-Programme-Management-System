@@ -25,7 +25,7 @@
 <script>
 export default {
     data() {
-        //  验证原密码
+        //  验证原密码  verify old password
         let validateOldPass = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('Input your old password!'))
@@ -36,7 +36,7 @@ export default {
                 callback()
             }
         }
-        //  验证新密码
+        //  验证新密码 Verify new password
         var validateNewPass = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('Input a new password!'))
@@ -46,7 +46,7 @@ export default {
                 callback()
             }
         }
-        //  验证再次输入密码
+        //  验证再次输入密码 Double verify new password
 
         var validateCheckNewPass = (rule, value, callback) => {
             if (value === '') {
