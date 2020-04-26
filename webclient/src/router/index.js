@@ -22,6 +22,7 @@ const router = new Router({
   ],
   mode: 'history'
 })
+
 //  ???? Verify login
 router.beforeEach((to, from, next) => {
   if (to.name === 'tab-list') {
