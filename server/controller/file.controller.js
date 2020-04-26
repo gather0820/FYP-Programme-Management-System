@@ -158,49 +158,27 @@ exports.delete = (req, res) => {
     });
 };
 
-//  下载文件
+//  下载文件 Download file
 exports.download = (req, res) => {
   let fileId = req.params.fileId;
-  //File.findByPrimary(fileId)
   File.findOne({
     where: {
-      // [Op.and]: [
-      //   {
       id: fileId
     }
-    // ]
-    // }
   })
     .then(file => {
-      // file
-      //   //.increment('download')
-      //   .then(() => {
       file.increment('download').then(() => {
         let fileName = req.params.fileName;
         let path = `${__dirname}/../resource/${req.params.hashName}`;
-        //console.log(path);
-        //   res.set({
-        //     "Content-type":"application/octet-stream",
-        //     "Content-Disposition":"attachment;filename="+file.file_name
-        // });
-        // console.log(file.file_name);
         res.download(path, fileName);
       });
-      // let fileName = req.params.fileName;
-      // let path = `${__dirname}/../resource/${fileName}`;
-      // console.log(path);
-      // res.download(path, fileName);
-      // res.send({
-      //   "status":"OK"
-      // })
     })
     .catch(err => {
       res.status(500).json('Error=>', err);
-      // });
     });
 };
 
-//  获取文件列表信息
+//  获取文件列表信息 Get the file listing information
 exports.findAll = (req, res) => {
   File.findAll({
     where: { uid: req.body.uid }
