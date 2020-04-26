@@ -154,8 +154,6 @@ exports.getUserIdByName = (req, res) => {
 
 //  修改密码
 exports.updatePassWord = (req, res) => {
-  // console.log("old:" + req.body.oldPassword);
-  // console.log("new:" + req.body.newPassword);
   User.findOne({
     where: {
       [Op.and]: [
@@ -172,9 +170,6 @@ exports.updatePassWord = (req, res) => {
   }).then(user => {
 
     if (user) {
-      //console.log(user.password)
-      // console.log(req.body.newPassword);
-      //console.log(req.body.uid);
       User.update(
         {
           password: req.body.newPassword
@@ -244,24 +239,12 @@ exports.verifyEmail = async (req, res) => {
     subject: 'Welcome to SDMS!',
     html: `<b>Thank you for signing up! Here is your verification code:</b><br><br>
     <center><b style="font-size:30px;">${token}</b></center>`,
-    //text: 'This is text version!',
-    //replyTo: 'receiverXXX@gmail.com',
 
     onError: (e) => {
-      // let msg = {
-      //   flag:0,
-      //   info:'Fail to send verification code!'
-      // };
-      // res.status(500).json(msg);
       console.log(e)
     },
     onSuccess: (i) => {
       console.log(i)
-      // let msg = {
-      //   flag:1,
-      //   info:'Verification code has been sent to your e-mail'
-      // };
-      // res.status(200).json(msg);
     }
   });
   let verInfo = {
