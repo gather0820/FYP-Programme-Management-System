@@ -7,23 +7,14 @@
 <script>
 export default {
   name: 'App',
-  // provide(){
-  //   return{
-  //     reload:this.reload
-  //   }
-  // },
   data(){
     return{
+      //只刷新主页面，不刷新导航栏
+      //Refresh only the main page, not the navigation bar
       isRouterAlive:true
     }
   },
   methods:{
-  //   reload(){
-  //     this.isRouterAlive = false;
-  //     this.$nextTick(()=>{
-  //       this.isRouterAlive = true;
-  //     })
-  //   }
   }
 }
 </script>
