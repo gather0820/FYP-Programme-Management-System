@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import index from '@/components/index'
 import list from '@/components/tab-list'
 
+//SPA?single-page application???????
+//WebApp's link path management system
 Vue.use(Router)
 
 const router = new Router({
@@ -20,7 +22,7 @@ const router = new Router({
   ],
   mode: 'history'
 })
-//  校验登录
+//  ???? Verify login
 router.beforeEach((to, from, next) => {
   if (to.name === 'tab-list') {
     if (!sessionStorage.username) {
