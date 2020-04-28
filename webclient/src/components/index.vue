@@ -23,7 +23,7 @@
             <el-button @click="tosignUp">Register</el-button>
         </div>
     </el-dialog>
-    <el-dialog title="Register" :visible.sync="dialog2FormVisible" width="500px" :close-on-click-modal="false">
+    <el-dialog title="Register" :visible.sync="dialog2FormVisible" width="520px" :close-on-click-modal="false">
         <el-form :model="form">
             <el-form-item label="User name" :label-width="formLabelWidth">
                 <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address" :disabled="emailDisabled">
@@ -36,6 +36,9 @@
             </el-form-item>
             <el-form-item label="Password" :label-width="formLabelWidth">
                 <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+            </el-form-item>
+            <el-form-item label="Confirm password" :label-width="formLabelWidth">
+                <el-input v-model="form.confirmPassword" autocomplete="off" type="password"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -57,9 +60,10 @@ export default {
                 username: "",
                 password: "",
                 checkcode: "",
-                vercode:""
+                vercode:"",
+                confirmPassword:""
             },
-            formLabelWidth: "120px",
+            formLabelWidth: "140px",
             emailDisabled: false,
             svgData: 'width="200"'
         };
@@ -124,6 +128,10 @@ export default {
         },
         //  注册
         signUp() {
+            if (this.form.confirmPassword != this.form.password) {
+                this.$message.error('Two passwords you input should be identical!');
+                return;
+            }
             //this.dialogFormVisible = false;
             this.$http
                 .post("/user/add", {
