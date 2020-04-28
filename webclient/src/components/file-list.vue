@@ -10,7 +10,7 @@
         <el-table-column>
             <template slot="header">
                 <el-input v-model="search" placeholder="Search file" style="width:100%">
-                    <i slot="prefix" style="margin-left:10px;" class="el-input__icon el-icon-search"></i>
+                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
                 </el-input>
             </template>
             <template slot-scope="scope">
@@ -78,7 +78,10 @@ export default {
             chooseDownloadType: false,
             pdfURL: '',
             downloadItem: "",
-            transcoding: false
+            transcoding: false,
+
+            //2020-04-27 支持转pdf的文件
+            convertible:['.doc','.docx','.ppt','.pptx','.md','.txt','.xls','.xlsx','.csv','.png','.jpg','jpeg','.java','.js','.c','.cpp','.py','.go','.cs','.json']
         };
     },
     methods: {
@@ -90,7 +93,14 @@ export default {
                 this.pdfURL = `http://localhost:8081/file/download/${row.hash_name}/${row.file_name}/${row.id}`;
                 //this.previewItem = row.fileName;
             } else {
-                this.transcode(row.hash_name, row.file_name, row.type);
+                //2020-04-27 在格式列表里则转换，否则提升不支持预览
+                if (this.convertible.includes(row.type)) {
+                    this.transcode(row.hash_name, row.file_name, row.type);
+                } else {
+                    this.centerDialogVisible = false;
+                    this.$message.info('Unsupported file');
+                }
+                
             }
 
         },
@@ -131,7 +141,7 @@ export default {
             this.pdfURL = '';
             this.transcoding = false;
             this.downloadItem = data;
-            let typeList = ['.doc', '.docx', '.ppt', '.pptx'];
+            let typeList = ['.doc', '.docx', '.ppt', '.pptx','.xls','.xlsx'];
             if (typeList.includes(data.type)) {
                 this.chooseDownloadType = true;
             }
