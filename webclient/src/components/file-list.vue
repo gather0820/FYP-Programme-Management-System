@@ -197,7 +197,7 @@ export default {
         getFile2(data) {
             let url = `http://localhost:8081/file/download/${data.hash_name}/${data.file_name}/${data.id}`;
             let pdfURL = '';
-            let typeList = ['.doc', '.docx', '.ppt', '.pptx'];
+            let typeList = ['.doc', '.docx', '.ppt', '.pptx','.xls','.xlsx'];
             if (!typeList.includes(data.type)) {
                 return url;
             }
