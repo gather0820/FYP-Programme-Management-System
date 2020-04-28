@@ -94,9 +94,9 @@ export default {
 
         async hasNew() {
             let res = await this.$http.get(`/share/new/${sessionStorage.uid}`);
-            //if (res.data.flag == 1) {
-                //sessionStorage.setItem("showBadge", 1);
-            //}
+            if (res.data.flag == 1) {
+                sessionStorage.setItem("showBadge", 1);
+            }
         },
 
         tosignUp() {
