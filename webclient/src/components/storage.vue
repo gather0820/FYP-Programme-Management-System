@@ -7,10 +7,10 @@ export default {
     data() {
         this.chartSettings = {
             dataType: function (v) {
-                return v + ' MB'
+                return v + " MB";
             },
-            radius:110
-        }
+            radius: 110
+        };
         return {
             chartData1: {},
             chartData: {},
@@ -18,10 +18,11 @@ export default {
             pdfFile: 1,
             officeFile: 0,
             images: 0,
+            archives: 0,
+            audioAndVideos:0,
             others: 0,
-            total: 0,
-
-        }
+            total: 0
+        };
     },
 
     methods: {
@@ -37,7 +38,8 @@ export default {
                     } else {
                         this.fileData = res.data;
                     }
-                }).then(() => {
+                })
+                .then(() => {
                     this.reorganizeData();
                 })
                 .catch(err => {
@@ -46,54 +48,66 @@ export default {
         },
         reorganizeData() {
             let originalData = this.fileData;
-            let office = ['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'];
-            let images = ['.jpg', '.png', '.bmp', '.tiff', '.gif']
+            let office = [".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx"];
+            let images = [".jpg", ".png", ".bmp", ".tiff", ".gif"];
+            //压缩包类型
+            let archive = [".rar", ".zip", ".7z", ".tar", ".gz", ".xz",".bz2"];
+            //音视频文件
+            let audioAndVideo = [".mp4",".mpg",".flv",".rm",".rmvb",".avi",".mov",".mkv",".mp3",".flac",".aac",".ape",".wav"]
             originalData.forEach(e => {
                 let size = parseInt(e.size);
                 let type = e.type;
                 this.total += size;
-                if (type == '.pdf') {
+                if (type == ".pdf") {
                     this.pdfFile += size;
-                    
                 } else if (office.includes(type)) {
                     this.officeFile += size;
                 } else if (images.includes(type)) {
                     this.images += size;
+                } else if (archive.includes(type)) {
+                    this.archives += size;
+                } else if (audioAndVideo.includes(type)) {
+                    this.audioAndVideos += size;
                 } else {
-                    this.others += size
+                    this.others += size;
                 }
             });
             this.chartData1 = {
-                columns: ['type', 'space usage'],
+                columns: ["type", "space usage"],
                 rows: [{
-                        'type': 'pdf documents',
-                        'space usage': (this.pdfFile/(1024*1024)).toFixed(2)
+                        type: "pdf documents",
+                        "space usage": (this.pdfFile / (1024 * 1024)).toFixed(2)
                     },
                     {
-                        'type': 'office documents',
-                        'space usage': (this.officeFile/(1024*1024)).toFixed(2)
+                        type: "office documents",
+                        "space usage": (this.officeFile / (1024 * 1024)).toFixed(2)
                     },
                     {
-                        'type': 'images',
-                        'space usage': (this.images/(1024*1024)).toFixed(2)
+                        type: "images",
+                        "space usage": (this.images / (1024 * 1024)).toFixed(2)
                     },
                     {
-                        'type': 'other files',
-                        'space usage': (this.others/(1024*1024)).toFixed(2)
+                        type: "archive files",
+                        "space usage": (this.archives / (1024 * 1024)).toFixed(2)
                     },
                     {
-                        'type': 'available',
-                        'space usage': ((5 * 1024 - this.total / (1024 * 1024))).toFixed(2)
+                        type: "audios & videos",
+                        "space usage": (this.audioAndVideos / (1024 * 1024)).toFixed(2),
+                    },
+                    {
+                        type: "other files",
+                        "space usage": (this.others / (1024 * 1024)).toFixed(2)
+                    },
+                    {
+                        type: "available",
+                        "space usage": (5 * 1024 - this.total / (1024 * 1024)).toFixed(2)
                     }
                 ]
-            }
-            
-
+            };
         }
-
     },
     mounted() {
         this.getAllFileData();
     }
-}
+};
 </script>
