@@ -85,19 +85,17 @@ export default {
          *  进入页面时,向后台发起请求.查询是否有当前用户未处理的分享，如果有则改变showBadge的值
          *  When you enter the page, make a request to the background.
          *  Query if there are any unprocessed shares by the current user, and if so, change the value of showBadge
-         *
-         * hasNew() {
+         */
+        hasNew() {
             this.$http.get(`/share/new/${sessionStorage.uid}`).then(res => {
                 if (res.data.flag == 1) {
                     this.showBadge = res.data.data.length;
                     //When the view is updated manually, the Receive tab shows the New
-                    //手动更新视图时Receive标签显示New
+                    //手动更新视图，时Receive标签显示New
                     this.$children[1].$children[0].$forceUpdate()
                 }
             });
         }
-        */
-        
     },
     mounted() {
         this.hasNew();
