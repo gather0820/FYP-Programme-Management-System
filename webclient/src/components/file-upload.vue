@@ -68,10 +68,10 @@ export default {
     },
 
     dealSuccess() {
-      this.$message.success("Uploaded successfully!");
+      this.$message.success("Uploaded success!");
     },
     dealError() {
-      this.$message.error("Failed!try again!");
+      this.$message.error("Please try again...");
     },
     /**
      * 2020-04-27  对上传文件的限制
