@@ -81,7 +81,7 @@ export default {
             transcoding: false,
 
             //2020-04-27 支持转pdf的文件
-            convertible:['.doc','.docx','.ppt','.pptx','.md','.txt','.xls','.xlsx','.csv','.png','.jpg','jpeg','.java','.js','.c','.cpp','.py','.go','.cs','.json']
+            convertible:['.doc','.docx','.ppt','.pptx','.md','.txt','.xls','.xlsx','.csv','.png','.jpg','.jpeg','.java','.js','.c','.cpp','.py','.go','.cs','.json']
         };
     },
     methods: {
