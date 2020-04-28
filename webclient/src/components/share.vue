@@ -21,7 +21,7 @@
                 <el-table-column>
                     <template slot="header">
                         <el-input v-model="search" placeholder="Search file" style="width:100%">
-                            <i slot="prefix" style="margin-left:10px;" class="el-input__icon el-icon-search"></i>
+                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </template>
                 </el-table-column>
