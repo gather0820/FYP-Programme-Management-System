@@ -25,32 +25,32 @@ exports.create = (req, res) => {
         });
       } else {
         User.create({
-          username:req.body.username,
-          password:decrypt(req.body.password)
+          username: req.body.username,
+          password: decrypt(req.body.password)
         })
-      .then(user => {
-        let msg = {};
-        if (user) {
-          msg = {
-            flag: 1,
-            msg: 'succeed!',
-            uid: user.uid,
-            username: user.username
-          };
-        } else {
-          msg = {
-            flag: 0,
-            msg: 'Failed!'
-          };
-        }
-        res.status(200).json(msg);
-      })
-      .catch(err => {
-        res.status(500).json('Error -> ' + err);
-      });
+          .then(user => {
+            let msg = {};
+            if (user) {
+              msg = {
+                flag: 1,
+                msg: 'succeed!',
+                uid: user.uid,
+                username: user.username
+              };
+            } else {
+              msg = {
+                flag: 0,
+                msg: 'Failed!'
+              };
+            }
+            res.status(200).json(msg);
+          })
+          .catch(err => {
+            res.status(500).json('Error -> ' + err);
+          });
       }
     });
-    
+
   } else {
     let msg = {
       flag: 0,
@@ -64,16 +64,16 @@ exports.create = (req, res) => {
 exports.validate = (req, res) => {
   let code = req.session;
   //console.log(code);
-  if(req.body.checkcode != 'TEST'){
-    if (req.body.checkcode.toLowerCase()!= req.session.checkCode.toLowerCase()) {
+  if (req.body.checkcode != 'TEST') {
+    if (req.body.checkcode.toLowerCase() != req.session.checkCode.toLowerCase()) {
       res.status(200).json({
-        flag:0,
-        msg:'Please input check code correctly'
+        flag: 0,
+        msg: 'Please input check code correctly'
       })
       return;
     }
   }
-  
+
   if (req.body.username && req.body.password) {
     User.findOne({
       where: {
@@ -197,9 +197,17 @@ exports.updatePassWord = (req, res) => {
 };
 
 /**
- * 发送邮箱验证码  2020-04-07
+ * 发送邮箱验证码  2020-04-27 modify
  */
 exports.verifyEmail = async (req, res) => {
+  let token = ''
+  try {
+    let buf = crypto.randomBytes(4);
+    token = buf.toString('hex');
+    console.log('randomcode: %s', token);
+  } catch (ex) {
+    console.log(ex)
+  }
   let email = req.body.username;
   let user = await User.findOne({
     where: {
@@ -213,21 +221,52 @@ exports.verifyEmail = async (req, res) => {
     })
     return;
   } else {
-    res.send({
-      flag: 1,
-      info: 'Verification code has been sent to your e-mail!'
-    })
-  }
+    let oldVerCode = await Verification.findOne({
+      where: {
+        username: email
+      }
+    });
+    if (oldVerCode) {
+      let oldVerCodeTime = oldVerCode.create_time.getTime();
+      let now = new Date().getTime();
+      let interval = parseInt((now - oldVerCodeTime) / 1000);
+      if (interval < 60) {
+        res.send({
+          flag: 0,
+          info: 'Please wait a minute!'
+        });
+        return;
+      }
+      await Verification.update(
+        {
+          code: token
+        },
+        {
+          where: {
+            username: email
+          }
+        }
+      );
+      res.send({
+        flag: 1,
+        info: 'Verification code has been sent to your e-mail!'
+      })
 
-  let token = ''
-  try {
-    let buf = crypto.randomBytes(4);
-    token = buf.toString('hex');
-    console.log('randomcode: %s', token);
-  } catch (ex) {
-    console.log(ex)
+    }else{
+      let verInfo = {
+        username: email,
+        code: token,
+        create_time: new Date()
+      }
+      let newVer = await Verification.create(verInfo);
+      if (newVer) {
+        res.send({
+          flag: 1,
+          info: 'Verification code has been sent to your e-mail!'
+        })
+      }
+    }
   }
-  
 
   nodeOutlook.sendEmail({
     auth: {
@@ -247,21 +286,12 @@ exports.verifyEmail = async (req, res) => {
       console.log(i)
     }
   });
-  let verInfo = {
-    username: email,
-    code: token,
-    create_time: new Date()
-  }
-  let newVer = await Verification.create(verInfo);
-  if (newVer) {
-    console.log(newVer)
-  }
-  
+
 }
 /**
  * 登录校验码2020-4-11,Node自带的模块
  */
-exports.checkCode = (req,res) => {
+exports.checkCode = (req, res) => {
   let newCheckCode = svgCaptcha.create({
     size: 4,  //验证码长度
     width: 200, //svg宽度
@@ -271,12 +301,12 @@ exports.checkCode = (req,res) => {
     fontSize: 35, //字体大小
     ignoreChars: 'Iiluv1O0o',   //验证码字符中排除
     color: false // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有           
-});
+  });
   req.session.checkCode = newCheckCode.text;
 
   //console.log(req.session)
   res.type('svg');
-  
+
   res.status(200).send(newCheckCode.data)
 
 }
