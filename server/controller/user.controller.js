@@ -293,20 +293,17 @@ exports.verifyEmail = async (req, res) => {
  */
 exports.checkCode = (req, res) => {
   let newCheckCode = svgCaptcha.create({
-    size: 4,  //验证码长度
+    size: 4,  //验证码显示个数 Number of captcha displays
     width: 200, //svg宽度
     height: 100, //svg高度
-    // background: "#eee",//svg背景色
     noise: 3, //干扰线条数
-    fontSize: 35, //字体大小
-    ignoreChars: 'Iiluv1O0o',   //验证码字符中排除
+    fontSize: 45, //字体大小
+    ignoreChars: 'Iiluv1O0o',   //验证码字符中排除 Exclusion of captcha characters
     color: false // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有           
   });
   req.session.checkCode = newCheckCode.text;
 
-  //console.log(req.session)
   res.type('svg');
-
   res.status(200).send(newCheckCode.data)
 
 }
