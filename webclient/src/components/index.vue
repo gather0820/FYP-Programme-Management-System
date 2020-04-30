@@ -87,7 +87,7 @@ export default {
                         sessionStorage.setItem("uid", res.data.uid);
                         sessionStorage.setItem("username", res.data.username);
                         this.hasNew();
-                        //  跳转到其他页面
+                        //  跳转到其他页面 Jump to this page
                         this.$router.push("tab-list");
                     }
                 })
