@@ -67,8 +67,6 @@ export default {
     },
     data() {
         return {
-            // currentPage,
-            // pageCount,
             previewItem: '',
             loading: true,
             search: '',
@@ -115,8 +113,6 @@ export default {
 
                         this.pdfURL = res.data.url
                         this.transcoding = false;
-
-                        // this.pdfURL = res.data.url
                     }
                 })
 
@@ -145,9 +141,6 @@ export default {
             if (typeList.includes(data.type)) {
                 this.chooseDownloadType = true;
             }
-            // setTimeout(() => {
-            //     this.refreshFileList();
-            // }, 1500);
         },
         refreshFileList() {
             this.getFileList();
@@ -177,10 +170,7 @@ export default {
         getPDF(data) {
             this.transcoding = true;
             this.transcode(data.hash_name, data.file_name, data.type);
-            //this.$http.get(url);
             let url = this.pdfURL;
-            // this.transcoding = false;
-            //this.chooseDownloadType = false
             return url;
         },
         handleClose() {
