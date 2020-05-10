@@ -133,7 +133,7 @@ exports.getUserIdByName = (req, res) => {
         if (user) {
           let msg = {
             flag: 1,
-            info: "User exists!",
+            info: "This username is registered!",
             rid: user.uid
           };
           res.status(200).json(msg);
@@ -217,7 +217,7 @@ exports.verifyEmail = async (req, res) => {
   if (user) {
     res.send({
       flag: 0,
-      info: 'User exists!'
+      info: 'This username is registered!'
     })
     return;
   } else {
