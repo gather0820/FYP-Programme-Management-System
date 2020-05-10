@@ -100,7 +100,7 @@ export default {
                     },
                     {
                         type: "available",
-                        "space usage": (5 * 1024 - this.total / (1024 * 1024)).toFixed(2)
+                        "space usage": (100* 1024 - this.total / (1024 * 1024)).toFixed(2)
                     }
                 ]
             };
