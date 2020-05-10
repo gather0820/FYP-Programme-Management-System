@@ -2,7 +2,6 @@
 const env = {
   database: 'SDMS',
   username: 'root',
-  //host: '192.168.31.236',
   password: '19980820.John',
   host: 'localhost',
   dialect: 'mysql',
