@@ -1,4 +1,4 @@
-//  数据库连接参数
+//  数据库连接参数 Database connection parameters
 const env = {
   database: 'SDMS',
   username: 'root',

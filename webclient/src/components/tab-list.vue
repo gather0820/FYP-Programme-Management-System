@@ -5,11 +5,11 @@ Jump to this page, AJAX requests various data from the background, such as file 
 <template>
 <div class="show" ref="show">
     <base-header></base-header>
-    <el-tabs v-model="tabActivedName" type="card" class="tab" @tab-click="cancelBadge">
+    <el-tabs v-model="tabActivedName" type="card"  class="tab" @tab-click="cancelBadge">
         <el-tab-pane class="tab-panes" v-for="(item, index) in componentList" :key="index" :label="item.tabLabel" :name="item.tabName">
-            <span ref="badge" slot="label" v-if="item.tabLabel=='Receive'&& showBadge">
+            <span class="badge_span" ref="badge" slot="label" v-if="item.tabLabel=='Receive'&& showBadge">
 
-                <el-badge >Receive</el-badge>
+                <el-badge class="badge" value="new">Receive</el-badge>
             </span>
             <component :is="item.compoName" v-if="tabActivedName===item.tabName"></component>
         </el-tab-pane>
@@ -99,27 +99,30 @@ export default {
     },
     mounted() {
         this.hasNew();
-        console.log(this.$children[1].$children[0])
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-<style>
+<style scoped>
 .tab {
-    padding: 30px 40px;
+    padding: 20px 20px ;
+    font-size: 20px;
+
 }
-
-.el-tabs__item {
-    font-size: 18px;
-
-    height: 55px;
+.tab-panes{
+    line-height: 30px;
+    position: relative;
 }
-
-.el-tabs--left .el-tabs__item.is-left {
-    text-align: justify;
-    line-height: 55px;
-
+.badge_span{
+    top: 0px;
+    z-index: 2000;
+}
+.badge{
+    position: relative;
+    top: 1px;
+    left: -10%;
+    z-index: 2000;
 }
 </style>

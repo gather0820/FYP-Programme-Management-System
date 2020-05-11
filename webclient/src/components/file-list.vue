@@ -1,6 +1,6 @@
 <template>
 <div>
-    <el-table class="list" empty-text="No data" stripe height="500" :data="tableData.filter(data =>  !search || data.file_name.toLowerCase().includes(search.toLowerCase()))" :header-cell-style="{background:'#d0f1f6',color:'#606276','text-align':'center'}" :cell-style="{'text-align':'center'}" :style="labelStyle" v-loading="tableData.length < 0" element-loading-text="Loading..." element-loading-spinner="el-icon-loading" :default-sort = "{prop: 'upload_time', order: 'descending'}">
+    <el-table class="list" empty-text="No data" stripe height="500" :data="tableData.filter(data =>  !search || data.file_name.toLowerCase().includes(search.toLowerCase()))" :header-cell-style="{background:'#d0f1f6',color:'#606276','text-align':'center'}" :cell-style="{'text-align':'center'}" :style="labelStyle" v-loading="tableData.length < 0" element-loading-text="Loading..." element-loading-spinner="el-icon-loading" :default-sort="{prop: 'upload_time', order: 'descending'}">
         <el-table-column type="index"></el-table-column>
         <el-table-column prop="file_name" label="File Name" width="250px"></el-table-column>
         <el-table-column prop="size" label="Size" width="180px" :formatter="dealSize" :sortable="true" :sort-method="sortBySize"></el-table-column>
@@ -63,7 +63,7 @@
 import Preview from './preview';
 export default {
     components: {
-        Preview
+        Preview,
     },
     data() {
         return {
@@ -79,7 +79,7 @@ export default {
             transcoding: false,
 
             //2020-04-27 支持转pdf的文件
-            convertible:['.doc','.docx','.ppt','.pptx','.md','.txt','.xls','.xlsx','.csv','.png','.jpg','.jpeg','.java','.js','.c','.cpp','.py','.go','.cs','.json']
+            convertible: ['.doc', '.docx', '.ppt', '.pptx', '.md', '.txt', '.xls', '.xlsx', '.csv', '.png', '.jpg', 'jpeg', '.java', '.js', '.c', '.cpp', '.py', '.go', '.cs', '.json']
         };
     },
     methods: {
@@ -98,7 +98,6 @@ export default {
                     this.centerDialogVisible = false;
                     this.$message.info('Unsupported file');
                 }
-                
             }
 
         },
@@ -137,7 +136,7 @@ export default {
             this.pdfURL = '';
             this.transcoding = false;
             this.downloadItem = data;
-            let typeList = ['.doc', '.docx', '.ppt', '.pptx','.xls','.xlsx'];
+            let typeList = ['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'];
             if (typeList.includes(data.type)) {
                 this.chooseDownloadType = true;
             }
@@ -222,23 +221,23 @@ export default {
                 date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
             return `${Y}-${M}-${D} ${h}:${m}:${s}`;
         },
-        sortBySize(a,b){
+        sortBySize(a,b) {
             //console.log(a,b)
             let num1 = parseInt(a.size);
             let num2 = parseInt(b.size);
             if (num1 > num2) {
                 return -1;
-            }else{
+            } else {
                 return 1;
             }
         },
-        sortByDownloadTimes(a,b){
+        sortByDownloadTimes(a,b) {
             //console.log(a,b)
             let num1 = parseInt(a.download);
             let num2 = parseInt(b.download);
             if (num1 > num2) {
                 return -1;
-            }else{
+            } else {
                 return 1;
             }
         },
@@ -250,7 +249,4 @@ export default {
 </script>
 
 <style>
-/* .list /deep/ .el-table__column{
-    color: aqua;
-  } */
 </style>

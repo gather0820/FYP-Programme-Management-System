@@ -5,7 +5,7 @@
       </div>
     <div class="title">
       SDMS
-      <span class="label">version.6</span>
+      <span class="label"></span>
     </div>
     </div>
     

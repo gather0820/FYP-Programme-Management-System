@@ -20,7 +20,7 @@ exports.create = (req, res) => {
                     flag: 1,
                     msg: 'Share -- Success!'
                 };
-                res.status(200).json(msg);
+                res.send(msg);
             } else {
                 let msg = {
                     flag: 0,

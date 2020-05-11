@@ -9,7 +9,6 @@
     action="http://localhost:8081/file/add"
     :data="userInfo"
     :on-success="dealSuccess"
-    :on-change="dealChange"
     :on-error="dealError"
   >
     <i class="el-icon-upload"></i>

@@ -4,13 +4,15 @@ const Verification = db.verification;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const svgCaptcha = require('svg-captcha');//登录验证码
-const CryptoJS = require('crypto-js')
+const CryptoJS = require('crypto-js');
 const nodeOutlook = require('nodejs-nodemailer-outlook');//邮箱验证码
 
 const crypto = require('crypto');
+var fs = require('fs');
+
+
 //  新增用户
 exports.create = (req, res) => {
-  //console.log(req.body.username)
   if (req.body.username && req.body.password && req.body.vercode) {
     Verification.findOne({
       where: {
@@ -64,16 +66,13 @@ exports.create = (req, res) => {
 exports.validate = (req, res) => {
   let code = req.session;
   //console.log(code);
-  if (req.body.checkcode != 'TEST') {
-    if (req.body.checkcode.toLowerCase() != req.session.checkCode.toLowerCase()) {
-      res.status(200).json({
-        flag: 0,
-        msg: 'Please input check code correctly'
-      })
-      return;
-    }
+  if (req.body.checkcode.toLowerCase() != req.session.checkCode.toLowerCase()) {
+    res.status(200).json({
+      flag: 0,
+      msg: 'Please input check code correctly!'
+    })
+    return;
   }
-
   if (req.body.username && req.body.password) {
     User.findOne({
       where: {
@@ -205,9 +204,14 @@ exports.verifyEmail = async (req, res) => {
     let buf = crypto.randomBytes(4);
     token = buf.toString('hex');
     console.log('randomcode: %s', token);
+    req.session.randomcode = token;
   } catch (ex) {
     console.log(ex)
   }
+
+  //用于单元测试，测试完注释掉
+  //writeToTestDatas("verCode", token)
+
   let email = req.body.username;
   let user = await User.findOne({
     where: {
@@ -252,7 +256,7 @@ exports.verifyEmail = async (req, res) => {
         info: 'Verification code has been sent to your e-mail!'
       })
 
-    }else{
+    } else {
       let verInfo = {
         username: email,
         code: token,
@@ -296,13 +300,23 @@ exports.checkCode = (req, res) => {
     size: 4,  //验证码显示个数 Number of captcha displays
     width: 200, //svg宽度
     height: 100, //svg高度
+    // background: "#eee",//svg背景色
     noise: 3, //干扰线条数
     fontSize: 45, //字体大小
     ignoreChars: 'Iiluv1O0o',   //验证码字符中排除 Exclusion of captcha characters
     color: false // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有           
   });
-  req.session.checkCode = newCheckCode.text;
+    req.session.checkCode = newCheckCode.text;
+    
+    //用于单元测试，测试完注释掉
+    //writeToTestDatas("checkCode", newCheckCode.text);
 
+;
+
+
+
+
+  console.log(req.session)
   res.type('svg');
   res.status(200).send(newCheckCode.data)
 
@@ -318,3 +332,16 @@ decrypt = (word, keyStr) => {
   return CryptoJS.enc.Utf8.stringify(decrypt).toString();
 }
 
+//用于单元测试，不测试注释掉
+
+// writeToTestDatas = (key, value) => {
+//   fs.readFile('./test/testDatas.json', function (err, data) {
+//     if (err) {
+//       console.log(err)
+//     }
+//     let testData = JSON.parse(data);
+//     testData[key] = value;
+//     let newData = JSON.stringify(testData);
+//     fs.writeFileSync('./test/testDatas.json', newData)
+//   })
+// }

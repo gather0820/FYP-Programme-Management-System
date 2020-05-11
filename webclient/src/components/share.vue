@@ -2,7 +2,7 @@
 <div>
     <el-container>
         <el-aside class="share-aside" width="450px">
-            <span>Pleace input username to share files. </span>
+            <span>Pleace input username to share files.</span>
             <el-row type="flex">
                 <el-col :span="16" justify="center">
                     <el-input v-model="receiver" placeholder="*This conduct is irreversible."></el-input>
@@ -46,6 +46,7 @@ export default {
     methods: {
         /**
          * 获得选中的数据(数组)
+         * Get the selected data (array)
          */
         handleSelectionChange() {
             this.multipleSelection = this.$refs.multipleTable.selection;
@@ -83,9 +84,7 @@ export default {
                 .get(`/user/id/${this.receiver}`)
                 .then(res => {
                     if (res.data.flag === 1) {
-                        //this.$message.success(res.data.rid.toString());
                         this.rid = res.data.rid;
-                        //sessionStorage.setItem('rid', this.id);
                     } else {
                         this.$message.error(res.data.info);
                         this.receiver = "";
@@ -100,6 +99,7 @@ export default {
 
         /**
          * 获取已经选择的文件id数组
+         * Get an array of file IDs that have been selected
          */
         getSharedFileId() {
             let arr = this.multipleSelection.map(e => e.id);
@@ -109,16 +109,19 @@ export default {
             if (!this.receiver) {
                 this.$message.error("Input a Receiver");
             } else {
-                //this.getReceiverId();
                 this.getReceiverId();
-                //this.$message.success(this.receiverId);
             }
         },
 
         /**
          * 处理按下send按钮
+         * Handle pressing the SEND button.
          */
         handleSend() {
+            if(this.receiver == sessionStorage.getItem('username')){
+                this.$message.error("You should not share files to yourself");
+                return;
+            }
             if (!this.receiver) {
                 this.$message.error("Input a Receiver");
             } else {

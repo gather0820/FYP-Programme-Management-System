@@ -12,6 +12,7 @@ export default {
             radius: 110
         };
         return {
+            totalSpace:5,
             chartData1: {},
             chartData: {},
             fileData: [],
@@ -100,7 +101,7 @@ export default {
                     },
                     {
                         type: "available",
-                        "space usage": (100* 1024 - this.total / (1024 * 1024)).toFixed(2)
+                        "space usage": (100 * 1024 - this.total / (1024 * 1024)).toFixed(2)
                     }
                 ]
             };

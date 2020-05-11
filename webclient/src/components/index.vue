@@ -7,13 +7,13 @@
     </div>
     <el-dialog title="Log in" :visible.sync="dialogFormVisible" width="400px" :close-on-click-modal="false">
         <el-form :model="form">
-            <el-form-item label="User" :label-width="formLabelWidth"  >
+            <el-form-item label="User" :label-width="formLabelWidth">
                 <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address"></el-input>
             </el-form-item>
             <el-form-item label="Password" :label-width="formLabelWidth">
                 <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
             </el-form-item>
-            <el-form-item label="Check Code" :label-width="formLabelWidth"  >
+            <el-form-item label="Check Code" :label-width="formLabelWidth">
                 <el-input v-model="form.checkcode" autocomplete="off" placeholder="Click the CODE to refresh"></el-input>
                 <div v-html="svgData" @click="refreshCheckCode" style="padding-top: 20px;"></div>
             </el-form-item>
@@ -31,8 +31,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item label="Verification Code" :label-width="formLabelWidth">
-                <el-input v-model="form.vercode" autocomplete="off" placeholder="Click 'Verify' and check your E-mail">
-                </el-input>
+                <el-input v-model="form.vercode" autocomplete="off" placeholder="Click 'Verify' and check your E-mail"></el-input>
             </el-form-item>
             <el-form-item label="Password" :label-width="formLabelWidth">
                 <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
@@ -49,7 +48,7 @@
 </template>
 
 <script>
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 export default {
     name: "index",
     data() {
@@ -60,8 +59,8 @@ export default {
                 username: "",
                 password: "",
                 checkcode: "",
-                vercode:"",
-                confirmPassword:""
+                vercode: "",
+                confirmPassword: ""
             },
             formLabelWidth: "140px",
             emailDisabled: false,
@@ -69,6 +68,34 @@ export default {
         };
     },
     methods: {
+        /**
+         * 2020-4-11校验密码格式
+         */
+        checkPasswordStrength(password) {
+            const pass = password;
+
+            const reg_length = /^.{8,18}$/;//校验的长度8-18 Length of checksum 8-18
+            const reg_num = /[0-9]/im; //判断是否有数字 Determine if there are numbers.
+            const reg_az = /[a-z]/; //判断是否有小写字母 Determine if there are lowercase letters.
+            const reg_AZ = /[A-Z]/; //判断是否有大写字母 Determine if there are capital letters.
+
+            let resultMsg = {};
+            if (pass == '' || pass == undefined || pass == null) {
+                resultMsg.message = 'Please input password!';
+                resultMsg.result = false;
+            }else if(!reg_length.test(pass)){
+                resultMsg.message = 'Password is too short or too long!';
+                resultMsg.result = false;
+            }else if (!reg_num.test(pass) || !reg_az.test(pass) || !reg_AZ.test(pass)){
+                resultMsg.message = 'Your password should contain numbers,upper and lower case letters';
+                resultMsg.result = false;
+            }else{
+                resultMsg.result = true;
+            }
+
+            return resultMsg;
+
+        },
         // 登录
         signIn() {
             this.dialogFormVisible = false;
@@ -98,9 +125,7 @@ export default {
 
         async hasNew() {
             let res = await this.$http.get(`/share/new/${sessionStorage.uid}`);
-            if (res.data.flag == 1) {
-                sessionStorage.setItem("showBadge", 1);
-            }
+
         },
 
         tosignUp() {
@@ -111,33 +136,39 @@ export default {
             let email = this.form.username;
             var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
             if (!reg.test(email)) {
-                this.$message.error("Username should be an e-mail address!")
+                this.$message.error("Username should be an e-mail address!");
                 return;
             }
-            this.$http.post("/user/verify", {
-                username: email
-            }).then(res => {
-                if (res.data.flag == 0) {
-                    this.$message.error(res.data.info);
-                } else {
-                    this.$message.success(res.data.info);
-                    this.emailDisabled = true;
-                }
-            })
-
+            this.$http
+                .post("/user/verify", {
+                    username: email
+                })
+                .then(res => {
+                    if (res.data.flag == 0) {
+                        this.$message.error(res.data.info);
+                    } else {
+                        this.$message.success(res.data.info);
+                        this.emailDisabled = true;
+                    }
+                });
         },
         //  注册
         signUp() {
+            const msg = this.checkPasswordStrength(this.form.password);
+            if(!msg.result){
+                this.$message.error(msg.message);
+                return;
+            }
             if (this.form.confirmPassword != this.form.password) {
-                this.$message.error('Two passwords you input should be identical!');
+                this.$message.error("Two passwords you input should be identical!");
                 return;
             }
             //this.dialogFormVisible = false;
             this.$http
                 .post("/user/add", {
-                    vercode:this.form.vercode,
-                    username:this.form.username,
-                    password:this.encrypt(this.form.password)
+                    vercode: this.form.vercode,
+                    username: this.form.username,
+                    password: this.encrypt(this.form.password)
                 })
                 .then(res => {
                     if (res.data.flag === 0) {
@@ -147,8 +178,7 @@ export default {
                         setTimeout(() => {
                             this.dialog2FormVisible = false;
                             this.dialogFormVisible = true;
-                        }, 2000)
-
+                        }, 2000);
                     }
                 })
                 .catch(err => {
@@ -157,16 +187,16 @@ export default {
         },
         //通过AJAX请求验证码
         getCheckCode() {
-            this.$http.get('/user/checkcode').then(res => {
+            this.$http.get("/user/checkcode").then(res => {
                 this.svgData = res.data;
-            })
+            });
         },
         refreshCheckCode() {
             this.getCheckCode();
         },
 
         /**
-         * 密码加密，防止抓包
+         * 密码加密，防止抓包 Password encryption to prevent packet capture
          */
         encrypt(word, keyStr) {
             keyStr = keyStr ? keyStr : "sdms123456SDMS654321";
@@ -177,23 +207,21 @@ export default {
                 padding: CryptoJS.pad.Pkcs7
             });
             return encrypted.toString();
-
-        },
+        }
     },
     //在此生命周期函数里调用，页面装在完成会自动调用
-        mounted() {
-            this.hasNew();
-            this.getCheckCode();
-        }
+    //Called in this lifecycle function, the page is automatically called at completion.
+    mounted() {
+        this.hasNew();
+        this.getCheckCode();
     }
-
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
 .index {
-    
     /** margin-top: 140px;*/
 
     height: 700px;
@@ -220,6 +248,5 @@ export default {
 
 .dialog-footer {
     text-align: center;
-    
 }
 </style>

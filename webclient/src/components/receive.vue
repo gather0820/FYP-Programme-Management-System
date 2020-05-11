@@ -134,6 +134,7 @@ export default {
         },
         /**
          * 获得选中的数据(数组)
+         * Get the selected data (array)
          */
         handleSelectionChange() {
             this.multipleSelection = this.$refs.multipleTable[this.tabActivedName].selection;
@@ -150,6 +151,7 @@ export default {
         },
         /**
          * 格式化时间
+         * Formatting time
          */
         formatTime(value) {
             var date = new Date(value);
@@ -178,8 +180,6 @@ export default {
                         this.$message.error(res.data.msg);
                     }
                 }).then(() => {
-                    //this.$root.$children[0].$children[0].$forceUpdate()
-                    //let fileString = files.map(e => e.file_name).join(" , ");
                     this.changeStatus(status);
                 })
         },
@@ -194,7 +194,6 @@ export default {
         },
         handleAcceptAll() {
             console.log(this.receiveTabs)
-            // console.log(this.receiveTabs[this.tabActivedName])
             this.handleAccept(this.receiveTabs[this.tabActivedName].fileList, "Accepted");
         },
         handleRejectAll() {
