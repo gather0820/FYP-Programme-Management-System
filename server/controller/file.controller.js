@@ -1,5 +1,5 @@
 const db = require('../config/db.config.js');
-const File = db.file; //  引入表模型
+const File = db.file; //  引入表模型 Introduction of the table model
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const path = require('path');
@@ -11,10 +11,10 @@ const libre = require('libreoffice-convert');
 
 
 /**
- * v3-文件转码：
- * 将office文档、txt、java、python、cpp等文本文件转成pdf，存入临时文件夹，返回给前端显示
- * 调用了Libreoffice
- * 
+ * 文件转码：
+ * 调用了Libreoffice将office文档、txt、java、python、cpp等文本文件转成pdf，存入临时文件夹，返回给前端显示
+ * Called Libreoffice will office documents, txt, java, python, cpp and other text files into pdf, 
+ * deposit temporary folder, return to the front-end display
  */
 exports.transcode = (req, res) => {
   const sourceFileName = req.body.hash_name;
@@ -49,6 +49,7 @@ exports.transcode = (req, res) => {
 
 /**
  * preview,获得文件地址
+ * Get document address
  */
 exports.preview = (req,res) => {
   let hashName = req.params.hashName;
@@ -59,9 +60,10 @@ exports.preview = (req,res) => {
   res.download(path,fileName.replace(ext,'.pdf'))
 }
 
-//  添加文件
+//  添加文件 Add file
 exports.create = (req, res) => {
   //填充数据库中file表的字段
+  //Fill the fields of the file table in the database
   let params = {
     file_name: req.files[0].originalname,
     hash_name: req.files[0].filename,
@@ -93,6 +95,7 @@ exports.create = (req, res) => {
 };
 /**
  * 保存分享的文件信息到file表
+ * Save shared file information to the file table
  */
 exports.save = (req, res) => {
   req.body.fileList.forEach((e, index) => {
@@ -129,12 +132,12 @@ exports.save = (req, res) => {
 //  删除文件
 exports.delete = (req, res) => {
   const id = req.params.fileId;
-  //  从数据库删除记录
+  //  从数据库删除记录 database delete
   File.destroy({
     where: { id: id }
   })
     .then(_ => {
-      //  从文件夹删除
+      //  从文件夹删除  Delete from folder
       let fileName = req.params.fileName;
       let path = `${__dirname}/../resource/${fileName}`;
       fs.unlink(path, err => {
