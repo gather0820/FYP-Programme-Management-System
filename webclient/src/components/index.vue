@@ -68,9 +68,7 @@ export default {
         };
     },
     methods: {
-        /**
-         * 2020-4-11校验密码格式
-         */
+        //校验密码格式 Verify password format
         checkPasswordStrength(password) {
             const pass = password;
 
@@ -96,7 +94,7 @@ export default {
             return resultMsg;
 
         },
-        // 登录
+        // 登录 
         signIn() {
             this.dialogFormVisible = false;
             this.$http
@@ -114,7 +112,7 @@ export default {
                         sessionStorage.setItem("uid", res.data.uid);
                         sessionStorage.setItem("username", res.data.username);
                         this.hasNew();
-                        //  跳转到其他页面 Jump to this page
+                        //  跳转到其他页面 Jump to other page
                         this.$router.push("tab-list");
                     }
                 })
@@ -152,7 +150,7 @@ export default {
                     }
                 });
         },
-        //  注册
+        //  注册 
         signUp() {
             const msg = this.checkPasswordStrength(this.form.password);
             if(!msg.result){
@@ -185,7 +183,7 @@ export default {
                     console.log(err);
                 });
         },
-        //通过AJAX请求验证码
+        //通过AJAX请求验证码 Request captcha via AJAX
         getCheckCode() {
             this.$http.get("/user/checkcode").then(res => {
                 this.svgData = res.data;
@@ -195,9 +193,7 @@ export default {
             this.getCheckCode();
         },
 
-        /**
-         * 密码加密，防止抓包 Password encryption to prevent packet capture
-         */
+        //密码加密，防止抓包 Password encryption to prevent packet capture
         encrypt(word, keyStr) {
             keyStr = keyStr ? keyStr : "sdms123456SDMS654321";
             let key = CryptoJS.enc.Utf8.parse(keyStr);
@@ -222,8 +218,6 @@ export default {
 
 <style scoped>
 .index {
-    /** margin-top: 140px;*/
-
     height: 700px;
     text-align: center;
     background: url("/static/bg.png") center no-repeat;
