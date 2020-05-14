@@ -50,18 +50,16 @@ export default {
           console.log(err);
         });
     },
-    /**
-     * 2020-04-27 
-     */
+
     getFreeSpace() {
-      //总空间5G
+      //用户的总容量 Total capacity of users
       let diskSpace = 1024 * 1024 * 1024 * 5;
       let datas = this.fileData;
-      //已用空间
-      let spaceUsage = 0;
+      //已用容量 Used capacity
+      let spaceUsage = 0; 
       datas.forEach(e => {
-        let size = parseInt(e.size);
-        spaceUsage += size;
+       let size = parseInt(e.size);
+       spaceUsage += size;
       });
       return diskSpace - spaceUsage;
     },
@@ -72,28 +70,27 @@ export default {
     dealError() {
       this.$message.error("Please try again...");
     },
-    /**
-     * 2020-04-27  对上传文件的限制
-     */
+
+    //对上传文件的限制 Restrictions on uploading files
     beforeUpload(file) {
       String.prototype.endWith = function(endStr) {
         var d = this.length - endStr.length;
         return d >= 0 && this.lastIndexOf(endStr) == d;
       };
 
-      //限制单文件大小2GB
+      //限制单文件大小2GB Limit single file size to 2GB
       let limit = 1024*1024*1024*2;
       if(file.size > limit ){
         this.$message.error('Each Files should be no bigger then 2GB !')
         return false;
       }
-      //如果文件大小大于剩余空间,禁止上传
+      //如果文件大小大于剩余空间,禁止上传 If the file size is larger than the remaining space, the upload is prohibited
       if(file.size > this.getFreeSpace()){
         this.$message.error('Your storage space is full! ')
         return false;
       }
 
-      //禁止上传exe
+      //禁止上传exe Prevent viruses and disable exe uploads
       if (file.name.endWith(".exe")) {
         this.$message.error("Please do not upload '.exe' files for security");
         return false;
