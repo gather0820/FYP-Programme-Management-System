@@ -51,9 +51,9 @@ export default {
             let originalData = this.fileData;
             let office = [".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx"];
             let images = [".jpg", ".png", ".bmp", ".tiff", ".gif"];
-            //压缩包类型
+            //压缩包类型 Compressed package type
             let archive = [".rar", ".zip", ".7z", ".tar", ".gz", ".xz",".bz2"];
-            //音视频文件
+            //音视频文件 audio and video files
             let audioAndVideo = [".mp4",".mpg",".flv",".rm",".rmvb",".avi",".mov",".mkv",".mp3",".flac",".aac",".ape",".wav"]
             originalData.forEach(e => {
                 let size = parseInt(e.size);
@@ -101,7 +101,8 @@ export default {
                     },
                     {
                         type: "available",
-                        "space usage": (100 * 1024 - this.total / (1024 * 1024)).toFixed(2)
+                        //"space usage": (this.totalSpace * 1024 - this.total / (1024 * 1024)).toFixed(2)
+                        "space usage": (5 * 1024 - this.total / (1024 * 1024)).toFixed(2)
                     }
                 ]
             };
