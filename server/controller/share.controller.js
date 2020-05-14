@@ -1,10 +1,10 @@
 const db = require('../config/db.config.js');
-const Share = db.share; //  引入表模型
+const Share = db.share; //  引入表模型 Introduction of the table model
 const Sequelize = require('sequelize');
 const sequelize = db.sequelize;
 
 exports.create = (req, res) => {
-    //填充数据库中share表的字段
+    //填充数据库中share表的字段  Fill the fields of the SHARE table in the database
     let params = {
         sender_id: req.body.senderId,
         receiver_id: req.body.receiverId,
@@ -12,7 +12,7 @@ exports.create = (req, res) => {
         file_id_list: req.body.fileIdList,
         status: 'Unhandled'
     };
-    //创建一条记录
+    //创建一条记录 Create a record
     Share.create(params)
         .then(share => {
             if (share) {
@@ -61,7 +61,9 @@ exports.receiveNew = (req, res) => {
     }
 }
 /**
- * //获取到当前用户未处理的分享信息（通过连接user表和share表，获得发送者username，整合到一条share记录中）
+ * 获取到当前用户未处理的分享信息（通过连接user表和share表，获得发送者username，整合到一条share记录中）
+ * Get the share information unprocessed by the current user 
+ * (get the sender username by connecting the user table to the SHARE table and integrating it into a SHARE record)
  */
 exports.getReceiveData = async (req, res) => {
     let share = await sequelize.query(`SELECT t1.*,t2.username as sender from share as t1 join user as t2 on t1.sender_id = t2.uid where t1.receiver_id = ${req.params.uid} and t1.status = 'Unhandled'`, { type: sequelize.QueryTypes.SELECT });
@@ -82,6 +84,7 @@ exports.getReceiveData = async (req, res) => {
 }
 /**
  * 在share表中改变记录的status
+ * Changing the status of a record in the SHARE table
  */
 exports.handle = (req, res) => {
     Share.update({
