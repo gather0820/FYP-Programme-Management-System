@@ -6,7 +6,6 @@
             <el-row type="flex">
                 <el-col :span="16" justify="center">
                     <el-input v-model="receiver" placeholder="*This conduct is irreversible."></el-input>
-                    <!-- <el-button type="primary" class="send" @click="handleCheck">Check</el-button> -->
                     <el-button type="primary" class="send" @click="handleSend">Share</el-button>
                 </el-col>
             </el-row>
@@ -40,7 +39,7 @@ export default {
             labelStyle: {},
             receiver: "",
             rid: "",
-            multipleSelection: [] //多选中的数据
+            multipleSelection: [] //多选中的数据 Multi-selected data
         };
     },
     methods: {
@@ -77,7 +76,7 @@ export default {
                 });
         },
         /**
-         *
+         *获取数据ID Obtaining data ID
          */
         getReceiverId() {
             this.$http
