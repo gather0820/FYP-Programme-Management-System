@@ -47,7 +47,6 @@
             <preview :url="pdfURL" v-if="centerDialogVisible" />
 
             <el-row slot="footer" class="dialog-footer" style="text-align:center">
-                <!-- <el-button @click="centerDialogVisible = false"></el-button> -->
                 <el-button type="primary" @click="centerDialogVisible = false">OK</el-button>
             </el-row>
         </div>
@@ -76,6 +75,7 @@ export default {
     methods: {
         /**
          * 获取当前用户所有未处理的分享
+         * Get all unprocessed shares from current users
          */
         getUnhandledShare() {
             this.$http.get(`/share/receive/all/${sessionStorage.uid}`).then(res => {
@@ -143,7 +143,7 @@ export default {
         },
         dealSize(row, column) {
             let fileSize = (row.size / 1024).toFixed(2);
-            if (fileSize >= 1024) {
+            if (fileSize >= 1024*1024) {
                 fileSize = (fileSize / 1024).toFixed(2)
                 return `${fileSize}MB`;
             }
