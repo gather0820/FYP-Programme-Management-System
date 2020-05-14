@@ -3,15 +3,15 @@ const User = db.user; //  引入表模型
 const Verification = db.verification;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const svgCaptcha = require('svg-captcha');//登录验证码
+const svgCaptcha = require('svg-captcha');//登录验证码 login verification code
 const CryptoJS = require('crypto-js');
-const nodeOutlook = require('nodejs-nodemailer-outlook');//邮箱验证码
+const nodeOutlook = require('nodejs-nodemailer-outlook');//邮箱验证码 email verification code
 
 const crypto = require('crypto');
 var fs = require('fs');
 
 
-//  新增用户
+//  新增用户  add user
 exports.create = (req, res) => {
   if (req.body.username && req.body.password && req.body.vercode) {
     Verification.findOne({
@@ -62,7 +62,7 @@ exports.create = (req, res) => {
   }
 };
 
-//  验证用户名和密码
+//  验证用户名和密码  Verify username and password
 exports.validate = (req, res) => {
   let code = req.session;
   //console.log(code);
@@ -119,7 +119,7 @@ exports.validate = (req, res) => {
   }
 };
 /**
- * 根据用户名查询该用户ID
+ * 根据用户名查询该用户ID  Query the user ID based on the user name.
  */
 exports.getUserIdByName = (req, res) => {
   if (req.params.name) {
@@ -151,7 +151,7 @@ exports.getUserIdByName = (req, res) => {
 
 }
 
-//  修改密码
+//  修改密码 Change Password
 exports.updatePassWord = (req, res) => {
   User.findOne({
     where: {
@@ -196,7 +196,7 @@ exports.updatePassWord = (req, res) => {
 };
 
 /**
- * 发送邮箱验证码  2020-04-27 modify
+ * 发送邮箱验证码 Send email verification code
  */
 exports.verifyEmail = async (req, res) => {
   let token = ''
@@ -209,7 +209,7 @@ exports.verifyEmail = async (req, res) => {
     console.log(ex)
   }
 
-  //用于单元测试，测试完注释掉
+  //用于单元测试 unit test
   //writeToTestDatas("verCode", token)
 
   let email = req.body.username;
@@ -293,7 +293,8 @@ exports.verifyEmail = async (req, res) => {
 
 }
 /**
- * 登录校验码2020-4-11,Node自带的模块
+ * 登录校验码,Node自带的模块
+ * Login checksum, Node's own module
  */
 exports.checkCode = (req, res) => {
   let newCheckCode = svgCaptcha.create({
@@ -308,7 +309,7 @@ exports.checkCode = (req, res) => {
   });
     req.session.checkCode = newCheckCode.text;
     
-    //用于单元测试，测试完注释掉
+    //用于单元测试  unit test
     //writeToTestDatas("checkCode", newCheckCode.text);
 
 ;
@@ -332,7 +333,7 @@ decrypt = (word, keyStr) => {
   return CryptoJS.enc.Utf8.stringify(decrypt).toString();
 }
 
-//用于单元测试，不测试注释掉
+//用于单元测试  unit test
 
 // writeToTestDatas = (key, value) => {
 //   fs.readFile('./test/testDatas.json', function (err, data) {
