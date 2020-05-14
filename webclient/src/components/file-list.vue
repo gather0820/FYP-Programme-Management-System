@@ -32,7 +32,6 @@
             <preview :url="pdfURL" v-if="centerDialogVisible" />
 
             <el-row slot="footer" class="dialog-footer" style="text-align:center">
-                <!-- <el-button @click="centerDialogVisible = false"></el-button> -->
                 <el-button type="primary" @click="centerDialogVisible = false">OK</el-button>
             </el-row>
         </div>
@@ -78,7 +77,7 @@ export default {
             downloadItem: "",
             transcoding: false,
 
-            //2020-04-27 支持转pdf的文件
+            //支持转pdf的文件 Support for file transfer to pdf
             convertible: ['.doc', '.docx', '.ppt', '.pptx', '.md', '.txt', '.xls', '.xlsx', '.csv', '.png', '.jpg', 'jpeg', '.java', '.js', '.c', '.cpp', '.py', '.go', '.cs', '.json']
         };
     },
@@ -91,7 +90,7 @@ export default {
                 this.pdfURL = `http://localhost:8081/file/download/${row.hash_name}/${row.file_name}/${row.id}`;
                 //this.previewItem = row.fileName;
             } else {
-                //2020-04-27 在格式列表里则转换，否则提升不支持预览
+                //在格式列表里则转换，否则提升不支持预览  Convert in the format list, otherwise the preview is not supported
                 if (this.convertible.includes(row.type)) {
                     this.transcode(row.hash_name, row.file_name, row.type);
                 } else {
@@ -197,7 +196,7 @@ export default {
         },
         dealSize(row, column) {
             let fileSize = (row.size / 1024).toFixed(2);
-            if (fileSize >= 1024) {
+            if (fileSize >= 1024 * 1024) {
                 fileSize = (fileSize / 1024).toFixed(2)
                 return `${fileSize}MB`;
             }
