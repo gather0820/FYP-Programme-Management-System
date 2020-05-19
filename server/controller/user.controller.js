@@ -101,7 +101,8 @@ exports.validate = (req, res) => {
         } else {
           msg = {
             flag: 0,
-            msg: 'Please check your username or password!'
+            //duration: 0 ,	
+            msg: 'Please check your username or password!If you forget your username or password please contact the administrator!'
           };
         }
 
@@ -181,7 +182,7 @@ exports.updatePassWord = (req, res) => {
       ).then(() => {
         let msg = {
           flag: 1,
-          msg: 'succeed!'
+          msg: 'Change succeed!'
         };
         res.status(200).json(msg);
       });

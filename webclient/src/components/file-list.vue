@@ -41,7 +41,7 @@
             {{downloadItem.file_name}}
         </div>
         <span v-if="transcoding == false">Download it directly or trancode to PDF</span>
-        <div v-if="transcoding == true && pdfURL == ''" v-loading="pdfURL == ''" element-loading-text="transcoding..." element-loading-spinner="el-icon-loading"></div>
+        <div v-if="transcoding == true && pdfURL == ''" v-loading="pdfURL == ''" element-loading-text="Transcoding..." element-loading-spinner="el-icon-loading"></div>
         <el-row slot="footer" class="dialog-footer" style="text-align:center">
             <a :href="getOriginal(downloadItem)">
                 <el-button @click="chooseDownloadType = false">Original</el-button>
@@ -76,6 +76,7 @@ export default {
             pdfURL: '',
             downloadItem: "",
             transcoding: false,
+            visible: false,
 
             //支持转pdf的文件 Support for file transfer to pdf
             convertible: ['.doc', '.docx', '.ppt', '.pptx', '.md', '.txt', '.xls', '.xlsx', '.csv', '.png', '.jpg', 'jpeg', '.java', '.js', '.c', '.cpp', '.py', '.go', '.cs', '.json']
@@ -174,7 +175,7 @@ export default {
         handleClose() {
             if (this.transcoding == true) {
                 this.$message({
-                    message: 'Transcoding, wait please',
+                    message: 'Transcoding,please wait ',
                     type: 'warning'
                 });
             } else {

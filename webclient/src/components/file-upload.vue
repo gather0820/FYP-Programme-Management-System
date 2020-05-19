@@ -81,7 +81,7 @@ export default {
       //限制单文件大小2GB Limit single file size to 2GB
       let limit = 1024*1024*1024*2;
       if(file.size > limit ){
-        this.$message.error('Each Files should be no bigger then 2GB !')
+        this.$message.error('Each Files should not bigger then 2GB !')
         return false;
       }
       //如果文件大小大于剩余空间,禁止上传 If the file size is larger than the remaining space, the upload is prohibited

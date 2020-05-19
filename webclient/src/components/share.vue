@@ -6,7 +6,18 @@
             <el-row type="flex">
                 <el-col :span="16" justify="center">
                     <el-input v-model="receiver" placeholder="*This conduct is irreversible."></el-input>
-                    <el-button type="primary" class="send" @click="handleSend">Share</el-button>
+                    <!-- <el-button type="primary" class="send" @click="handleSend">Share</el-button> -->
+                    <el-popover
+                    placement="bottom"
+                    width="220"
+                    v-model="visible">
+                    <p>Are you sure you want to share?<br /> The wrong share can't be withdrawn for now.</p>
+                    <div style="text-align: right; margin: 0">
+                        <el-button size="mini" type="text" @click="visible = false">Cancel</el-button>
+                        <el-button type="primary" size="mini" class="send" @click="handleSend">OK</el-button>
+                    </div>
+                        <el-button slot="reference" class="send">Share</el-button>
+                    </el-popover>
                 </el-col>
             </el-row>
         </el-aside>
@@ -39,6 +50,7 @@ export default {
             labelStyle: {},
             receiver: "",
             rid: "",
+            visible: false,
             multipleSelection: [] //多选中的数据 Multi-selected data
         };
     },

@@ -8,14 +8,30 @@
     <el-dialog title="Log in" :visible.sync="dialogFormVisible" width="400px" :close-on-click-modal="false">
         <el-form :model="form">
             <el-form-item label="User" :label-width="formLabelWidth">
-                <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address"></el-input>
+                <el-input 
+                v-model="form.username" 
+                autocomplete="off" 
+                clearable
+                placeholder="Pleace input E-mail address"></el-input>
             </el-form-item>
+            <el-tooltip content="If you forget your password, please contact the administrator" placement="right" effect="light">
             <el-form-item label="Password" :label-width="formLabelWidth">
-                <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+                <el-input 
+                v-model="form.password" 
+                autocomplete="off" 
+                clearable
+                show-password
+                type="password"></el-input>
             </el-form-item>
+            </el-tooltip>
             <el-form-item label="Check Code" :label-width="formLabelWidth">
-                <el-input v-model="form.checkcode" autocomplete="off" placeholder="Click the CODE to refresh"></el-input>
+                <el-input 
+                v-model="form.checkcode"
+                clearable 
+                autocomplete="off" ></el-input>
+                <el-tooltip content="Click the CODE to refresh" placement="right" effect="light">
                 <div v-html="svgData" @click="refreshCheckCode" style="padding-top: 20px;"></div>
+                </el-tooltip>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -26,18 +42,52 @@
     <el-dialog title="Register" :visible.sync="dialog2FormVisible" width="520px" :close-on-click-modal="false">
         <el-form :model="form">
             <el-form-item label="User name" :label-width="formLabelWidth">
-                <el-input v-model="form.username" autocomplete="off" placeholder="Pleace input your E-mail address" :disabled="emailDisabled">
-                    <el-button slot="append" type="success" @click="sendVerifyCode" :disabled="emailDisabled">Verify</el-button>
+                <el-tooltip content="If you don't receive the verification code, please check your email address is correct, refresh and try again." placement="top">
+                <el-input 
+                v-model="form.username" 
+                autocomplete="off" 
+                placeholder="Pleace input E-mail address" 
+                :disabled="emailDisabled"
+                clearable>
+                    <el-button 
+                    slot="append" 
+                    type="success" 
+                    @click="sendVerifyCode" 
+                    :disabled="emailDisabled">Verify</el-button>
                 </el-input>
+                </el-tooltip>
             </el-form-item>
             <el-form-item label="Verification Code" :label-width="formLabelWidth">
-                <el-input v-model="form.vercode" autocomplete="off" placeholder="Click 'Verify' and check your E-mail"></el-input>
+                <el-input 
+                v-model="form.vercode" 
+                tabindex
+                autocomplete="off" 
+                placeholder="Click 'Verify' and check your E-mail"
+                clearable></el-input>
             </el-form-item>
-            <el-form-item label="Password" :label-width="formLabelWidth">
-                <el-input v-model="form.password" autocomplete="off" type="password"></el-input>
+            <el-form-item 
+            label="Password" 
+            :label-width="formLabelWidth">
+                <el-tooltip content="Password must be 8 to 18 characters, including at least 1 uppercase letter, 1 lowercase letter, 1 number" placement="top">
+                <el-input 
+                v-model="form.password" 
+                autocomplete="off" 
+                type="password" 
+                clearable
+                tabindex
+                show-password
+                placeholder="Password must have a~z + A~Z + 1~0"></el-input>
+                </el-tooltip>
             </el-form-item>
-            <el-form-item label="Confirm password" :label-width="formLabelWidth">
-                <el-input v-model="form.confirmPassword" autocomplete="off" type="password"></el-input>
+            <el-form-item 
+            label="Confirm password" :label-width="formLabelWidth">
+                <el-input 
+                v-model="form.confirmPassword" 
+                autocomplete="off" 
+                type="password" 
+                clearable
+                tabindex
+                placeholder="Input must be the same as the password"></el-input>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -82,10 +132,10 @@ export default {
                 resultMsg.message = 'Please input password!';
                 resultMsg.result = false;
             }else if(!reg_length.test(pass)){
-                resultMsg.message = 'Password is too short or too long!';
+                resultMsg.message = 'The password must be 8 - 18 digits!';
                 resultMsg.result = false;
             }else if (!reg_num.test(pass) || !reg_az.test(pass) || !reg_AZ.test(pass)){
-                resultMsg.message = 'Your password should contain numbers,upper and lower case letters';
+                resultMsg.message = 'Your password should contain numbers,upper and lower case letters!';
                 resultMsg.result = false;
             }else{
                 resultMsg.result = true;
