@@ -35,7 +35,7 @@ exports.create = (req, res) => {
             if (user) {
               msg = {
                 flag: 1,
-                msg: 'succeed!',
+                msg: 'Registration complete!',
                 uid: user.uid,
                 username: user.username
               };
