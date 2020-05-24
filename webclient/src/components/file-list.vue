@@ -15,13 +15,17 @@
             </template>
             <template slot-scope="scope">
                 <a :href="getFile2(scope.row)">
-                    <el-button size="small" type="info" @click="handleDownload(scope.row)">Download</el-button>
+                    <el-button size="small" type="info" @click="handleDownload(scope.row)">
+                        Download</el-button>
                 </a>
                 <a href="#">
-                    <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">&nbsp;&nbsp;Delete&nbsp;</el-button>
+                    <el-button size="small" type="danger" @click="open(scope.index, scope.row)">
+                        <!-- @click="handleDelete(scope.$index, scope.row)"> -->
+                        &nbsp;&nbsp;Delete&nbsp;</el-button>
                 </a>
                 <a href="#">
-                    <el-button size="small" type="warning" @click="preview(scope.row)">&nbsp;Preview&nbsp;&nbsp;</el-button>
+                    <el-button size="small" type="warning" @click="preview(scope.row)">
+                        &nbsp;Preview&nbsp;&nbsp;</el-button>
                 </a>
             </template>
         </el-table-column>
@@ -121,6 +125,7 @@ export default {
                     console.log("Error=>", err);
                 })
         },
+        //删除 delete
         handleDelete(index, row) {
             this.$http
                 .delete(`/file/delete/${row.hash_name}/${row.id}`)
@@ -131,6 +136,31 @@ export default {
                 .catch(err => {
                     console.log("Error=>", err);
                 });
+        },
+        //删除提示窗 Reminder to delete
+        open(index,row) {
+            this.$confirm('This action will permanently delete the file, continue?', 'Attention!', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning',
+                beforeClose:(action,instance,done) =>{
+                    if(action === 'confirm'){
+                        this.handleDelete(index,row);
+                    }
+                    done();
+                }
+            }).then(() => {
+                //  this.$message({
+                //      type: 'success',
+                //      message: 'Delete Success'
+                //  });
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: 'Cancel Delete'
+                });
+            });
         },
         handleDownload(data) {
             this.pdfURL = '';
@@ -186,7 +216,7 @@ export default {
         getFile2(data) {
             let url = `http://localhost:8081/file/download/${data.hash_name}/${data.file_name}/${data.id}`;
             let pdfURL = '';
-            let typeList = ['.doc', '.docx', '.ppt', '.pptx','.xls','.xlsx'];
+            let typeList = ['.doc', '.docx', '.ppt', '.pptx', '.xls', '.xlsx'];
             if (!typeList.includes(data.type)) {
                 return url;
             }
@@ -221,7 +251,7 @@ export default {
                 date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
             return `${Y}-${M}-${D} ${h}:${m}:${s}`;
         },
-        sortBySize(a,b) {
+        sortBySize(a, b) {
             //console.log(a,b)
             let num1 = parseInt(a.size);
             let num2 = parseInt(b.size);
@@ -231,7 +261,7 @@ export default {
                 return 1;
             }
         },
-        sortByDownloadTimes(a,b) {
+        sortByDownloadTimes(a, b) {
             //console.log(a,b)
             let num1 = parseInt(a.download);
             let num2 = parseInt(b.download);
