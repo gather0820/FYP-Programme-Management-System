@@ -144,13 +144,13 @@ exports.delete = (req, res) => {
         if (err) {
           let msg = {
             flag: 0,
-            msg: 'Failed!'
+            msg: 'Delete Failed!'
           };
           res.status(200).json(msg);
         } else {
           let msg = {
             flag: 1,
-            msg: 'Done!'
+            msg: 'Delete Success!'
           };
           res.status(200).json(msg);
         }
