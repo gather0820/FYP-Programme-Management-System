@@ -107,7 +107,7 @@ export default {
 
 <style scoped>
 .tab {
-    padding: 20px 20px ;
+    padding: 18px 18px ;
     font-size: 20px;
 
 }
