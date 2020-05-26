@@ -74,6 +74,8 @@ exports.getReceiveData = async (req, res) => {
         s.fileList = file;
         return s;
     });
+    //由于短时间内循环操作数据库，所以要设个延时，才能拿到数据
+    //Due to the short cycle time of the database, there is a delay in order to get the data
     setTimeout(() => {
         let msg = {
             flag: 1,
