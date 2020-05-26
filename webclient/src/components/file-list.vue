@@ -152,7 +152,7 @@ export default {
             }).then(() => {
                 //  this.$message({
                 //      type: 'success',
-                //      message: 'Delete Success'
+                //      message: '删除成功'
                 //  });
 
             }).catch(() => {
